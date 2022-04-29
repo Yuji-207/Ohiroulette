@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
     <title>おひるーれっと</title>
   </head>
@@ -59,7 +60,7 @@
       const App = () => {
 
         const [turnning, setTurnning] = React.useState(false);
-        const [choiced, setChoiced] = React.useState('お昼を決める');
+        const [choiced, setChoiced] = React.useState('今日のお昼は？');
         const [checked, setChecked] = React.useState([]);
         const [left, setLeft] = React.useState([
           '丸亀製麺',
@@ -75,22 +76,27 @@
           'サンマルクカフェ',
           'ガスト',
           'バーミヤン',
-          ''
-          
         ]);
 
         // ルーレット
         React.useEffect(() => {
           if (turnning) {
-            const index = Math.floor(Math.random() * left.length);
-            const choice = left[index];
-            if (choice !== choiced) {
-              setChoiced(choice);
-            } else {
-              setChoiced('お昼を決める')
-            }
+            
+            const intervalId = setInterval(() => (
+              setChoiced(choiced => {
+                const index = left.indexOf(choiced) + 1;
+                if (index < left.length) {
+                  setChoiced(left[index]);
+                } else {
+                  setChoiced(left[0])
+                }
+              })
+            ), 50);
+
+            return () => clearInterval(intervalId);
+            
           }
-        }, [turnning, choiced]);
+        }, [turnning]);
 
         const leftChecked = intersection(checked, left);
         const rightChecked = intersection(checked, right);
@@ -167,11 +173,14 @@
             <Typography variant="h1" align="center" sx={{margin: '2rem'}}>
               おひるーれっと
             </Typography>
-            <Box sx={{display: 'flex', justifyContent: 'space-evenly'}}>
+            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
 
-              <Paper sx={{padding: '1rem'}}>
+              <Paper sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', width: '40%', padding: '1rem'}}>
 
                 {/* ディスプレイ */}
+                <Typography variant="h4" component="h2" align="center" sx={{margin: '2rem'}}>
+                  行くお店
+                </Typography>
                 <Typography variant="h3" component="p" align="center" sx={{margin: '2rem'}}>
                   {choiced}
                 </Typography>
@@ -196,8 +205,8 @@
               </Paper>
 
               {/* お店リスト */}
-              <Paper sx={{padding: '1rem'}}>
-                <Typography variant="h3" component="p" align="center" sx={{margin: '2rem'}}>
+              <Paper sx={{width: '50%', padding: '1rem'}}>
+                <Typography variant="h4" component="h2" align="center" sx={{margin: '2rem'}}>
                   お店の候補
                 </Typography>
                 
