@@ -81,20 +81,18 @@
         // ルーレット
         React.useEffect(() => {
           if (turnning) {
-            
-            const intervalId = setInterval(() => (
-              setChoiced(choiced => {
-                const index = left.indexOf(choiced) + 1;
-                if (index < left.length) {
-                  setChoiced(left[index]);
-                } else {
-                  setChoiced(left[0])
-                }
-              })
-            ), 50);
 
-            return () => clearInterval(intervalId);
+            let index = 0;
+
+            const timerId = setInterval(() => {
+              setChoiced(() => {
+                index = index < left.length ? index + 1 : 0;
+                setChoiced(left[index]);
+              })
+            }, 50);
             
+            return () => clearInterval(timerId);  
+
           }
         }, [turnning]);
 
@@ -136,7 +134,7 @@
           setLeft(left.concat(right));
           setRight([]);
         };
-        
+
 
         const customList = items => (
           <Paper sx={{ width: 200, height: 230, overflow: 'auto' }}>
