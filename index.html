@@ -33,19 +33,17 @@
       const {
         Box,
         Button,
+        Checkbox,
         Container,
         Divider,
-        Stack,
-        TextField,
-        Typography,
-        Paper,
-
-        Grid,
         List,
         ListItem,
         ListItemIcon,
         ListItemText,
-        Checkbox,
+        Stack,
+        TextField,
+        Typography,
+        Paper,
       } = MaterialUI;
 
       const not = (a, b) => {
@@ -62,11 +60,13 @@
         const [turnning, setTurnning] = React.useState(false);
         const [choiced, setChoiced] = React.useState('今日のお昼は？');
         const [checked, setChecked] = React.useState([]);
+
         const [left, setLeft] = React.useState([
           '丸亀製麺',
           'みなと庵',
           'PARIYA',
         ]);
+
         const [right, setRight] = React.useState([
           'CHOTARO',
           '魚',
@@ -100,6 +100,7 @@
 
         const leftChecked = intersection(checked, left);
         const rightChecked = intersection(checked, right);
+
 
         const handleToggle = value => () => {
           const currentIndex = checked.indexOf(value);
@@ -135,6 +136,7 @@
           setLeft(left.concat(right));
           setRight([]);
         };
+        
 
         const customList = items => (
           <Paper sx={{ width: 200, height: 230, overflow: 'auto' }}>
@@ -210,10 +212,15 @@
                   お店の候補
                 </Typography>
                 
-                <Grid container spacing={2} justifyContent="center" alignItems="center" sx={{margin: '2rem'}}>
-                  <Grid item>{customList(left)}</Grid>
-                  <Grid item>
-                    <Grid container direction="column" alignItems="center">
+                <Box sx={{display: 'flex', justifyContent: 'space-between', margin: '2rem'}}>
+                  <Box>
+                    <Typography variant="h5" component="h3" align="center">
+                        あり
+                    </Typography>
+                    {customList(left)}
+                  </Box>
+                  <Box>
+                    <Box sx={{display: 'flex', flexFlow: 'column', justifyContent: 'center', height: '100%'}}>
                       <Button
                         sx={{ my: 0.5 }}
                         variant="outlined"
@@ -254,10 +261,15 @@
                       >
                         ≪
                       </Button>
-                    </Grid>
-                  </Grid>
-                  <Grid item>{customList(right)}</Grid>
-                </Grid>
+                    </Box>
+                  </Box>
+                  <Box>
+                    <Typography variant="h5" component="h3" align="center">
+                        なし
+                    </Typography>
+                    {customList(right)}
+                    </Box>
+                </Box>
 
               </Paper>
 
