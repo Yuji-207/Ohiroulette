@@ -1,4 +1,5 @@
-const {
+import React from 'react';
+import {
     Box,
     Button,
     Checkbox,
@@ -14,7 +15,7 @@ const {
     Tooltip,
     Typography,
     Paper,
-  } = MaterialUI;
+  } from '@mui/material';
 
   const not = (a, b) => {
     return a.filter((value) => b.indexOf(value) === -1);
@@ -260,6 +261,5 @@ const {
   }
 
 
-  ReactDOM
-    .createRoot(document.getElementById('root'))
-    .render(<App />);
+
+export default App;
