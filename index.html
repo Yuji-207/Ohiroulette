@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Google Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"/>
+    <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:FILL@1"/>
     <title>おひるーれっと</title>
   </head>
   <body>
@@ -24,6 +25,10 @@
     <!-- Babel -->
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
+
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/8418cf9bee.js"></script>
+
     <!-- Component -->
     <script type="text/babel">
         
@@ -34,12 +39,14 @@
         Checkbox,
         Container,
         Divider,
+        IconButton,
+        Link,
         List,
         ListItem,
         ListItemIcon,
         ListItemText,
-        Stack,
         TextField,
+        Tooltip,
         Typography,
         Paper,
       } = MaterialUI;
@@ -167,7 +174,25 @@
         );
         
         return (
-          <Container sx={{padding: '5rem'}}>
+          <Container sx={{position: 'relative', padding: '5rem'}}>
+
+            {/* リンクボタン */}
+            <Box sx={{position: 'fixed', top: 0, right: 0, display: 'flex', padding: '1rem'}}>
+              <Tooltip title="GitHubを見る" arrow>
+                <IconButton size="large" href="https://github.com/Yuji-207/Ohiroulette">
+                  <i class="fa fa-github"></i>
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="寄付をする" arrow>
+                <IconButton size="large" href="https://square.link/u/UHk7emHC">
+                  <span class="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}} >
+                    volunteer_activism
+                  </span>
+                </IconButton>
+            </Tooltip>
+            </Box>
+
+
             <Typography variant="h1" align="center" sx={{margin: '2rem'}}>
               おひるーれっと
             </Typography>
