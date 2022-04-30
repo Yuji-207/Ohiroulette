@@ -78,7 +78,7 @@
           'ごはんやごはん',
           '焼肉',
           'ファミマ',
-          'サンマルクカフェ',
+          'サンマルクカフェサンマルクカフェ',
           'ガスト',
           'バーミヤン',
         ]);
@@ -174,7 +174,7 @@
         );
         
         return (
-          <Container sx={{position: 'relative', padding: '5rem'}}>
+          <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', height: '100vh', textAlign: 'center', padding: '3rem'}}>
 
             {/* リンクボタン */}
             <Box sx={{position: 'fixed', top: 0, right: 0, display: 'flex', padding: '1rem'}}>
@@ -192,24 +192,21 @@
             </Tooltip>
             </Box>
 
-
-            <Typography variant="h1" align="center" sx={{margin: '2rem'}}>
+            {/* タイトル */}
+            <Typography variant="h1" sx={{margin: '2rem'}}>
               おひるーれっと
             </Typography>
-            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
 
-              <Paper sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', width: '40%', padding: '1rem'}}>
-
-                {/* ディスプレイ */}
-                <Typography variant="h4" component="h2" align="center" sx={{margin: '2rem'}}>
+            {/* 行くお店 */}
+            <Box sx={{display: 'flex', justifyContent: 'space-between', height: '100%', gap: '2rem'}}>
+              <Paper sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', gap: '2rem', width: '40%', padding: '3rem'}}>
+                <Typography variant="h4" component="h2">
                   行くお店
                 </Typography>
-                <Typography variant="h3" component="p" align="center" sx={{margin: '2rem'}}>
+                <Typography variant="h3" component="p">
                   {choiced}
                 </Typography>
-
-                {/* ボタン */}
-                <Box sx={{display: 'flex', width: '100%', justifyContent: 'center'}}>
+                <Box>
                   {turnning ? (
                     <Button variant="contained" onClick={() => setTurnning(false)} sx={{padding: '2rem', margin: '2rem'}}>
                       <Typography variant="h4" component="p" align="center">
@@ -224,16 +221,14 @@
                     </Button>
                   )}
                 </Box>
-                
               </Paper>
 
-              {/* お店リスト */}
-              <Paper sx={{width: '50%', padding: '1rem'}}>
-                <Typography variant="h4" component="h2" align="center" sx={{margin: '2rem'}}>
+              {/* お店の候補 */}
+              <Paper sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', gap: '2rem', width: '50%', padding: '3rem'}}>
+                <Typography variant="h4" component="h2" align="center">
                   お店の候補
                 </Typography>
-                
-                <Box sx={{display: 'flex', justifyContent: 'space-between', margin: '2rem'}}>
+                <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                   <Box>
                     <Typography variant="h5" component="h3" align="center">
                         あり
