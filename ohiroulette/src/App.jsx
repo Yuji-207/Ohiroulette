@@ -1,4 +1,5 @@
-const {
+import React from 'react';
+import {
     Box,
     Button,
     Checkbox,
@@ -14,7 +15,7 @@ const {
     Tooltip,
     Typography,
     Paper,
-  } = MaterialUI;
+  } from '@mui/material';
 
   const not = (a, b) => {
     return a.filter((value) => b.indexOf(value) === -1);
@@ -145,12 +146,12 @@ const {
         <Box sx={{position: 'fixed', top: 0, right: 0, display: 'flex', padding: '1rem'}}>
           <Tooltip title="GitHubを見る" arrow>
             <IconButton size="large" href="https://github.com/Yuji-207/Ohiroulette">
-              <i class="fa fa-github"></i>
+              <i className="fa fa-github"></i>
             </IconButton>
           </Tooltip>
           <Tooltip title="寄付をする" arrow>
             <IconButton size="large" href="https://square.link/u/UHk7emHC">
-              <span class="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}} >
+              <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}} >
                 volunteer_activism
               </span>
             </IconButton>
@@ -260,6 +261,5 @@ const {
   }
 
 
-  ReactDOM
-    .createRoot(document.getElementById('root'))
-    .render(<App />);
+
+export default App;
