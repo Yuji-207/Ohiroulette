@@ -141,7 +141,6 @@ import {
     
     return (
       <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', height: '100vh', textAlign: 'center', padding: '3rem'}}>
-        <h1>test</h1>
         {/* リンクボタン */}
         <Box sx={{position: 'fixed', top: 0, right: 0, display: 'flex', padding: '1rem'}}>
           <Tooltip title="GitHubを見る" arrow>
