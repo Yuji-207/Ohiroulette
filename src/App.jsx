@@ -108,7 +108,7 @@ import TransferButton from './components/TransferButton';
         </Box>
 
         {/* タイトル */}
-        <Typography fontSize={'3rem'} sx={{margin: '2rem 0'}}>
+        <Typography variant='h1' sx={{margin: '2rem 0'}}>
           おひるーれっと
         </Typography>
 

@@ -23,7 +23,7 @@ const CustomeList = (props) => {
         <Typography variant="h5" component="h3" sx={{margin: '1rem'}}>
           {title}
         </Typography>
-        <List dense sx={{width: '10rem', height: '15rem', overflow: 'auto', margin: '1rem'}}>
+        <List dense sx={{width: '10rem', height: '25rem', overflow: 'auto', margin: '1rem'}}>
           {items.map(value => (
             <CustomeListItem value={value} checked={checked} setChecked={setChecked} />
           ))}
