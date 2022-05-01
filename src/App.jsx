@@ -2,24 +2,18 @@ import React from 'react';
 
 import {
     Box,
-    Button,
-    Checkbox,
     Container,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
     Typography,
-    Paper,
   } from '@mui/material';
 
 import GitHubIcon from '@mui/icons-material/GitHub';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 import BasePaper from './components/BasePaper';
-import BackgroundImages from './components/BackgroundImages';
 import LinkIconButton from './components/LinkIconButton';
 import MainButton from './components/MainButton';
+import CustomeList from './components/CustomeList';
+import TransferButton from './components/TransferButton';
 
 
   const not = (a, b) => {
@@ -76,19 +70,6 @@ import MainButton from './components/MainButton';
     const rightChecked = intersection(checked, right);
 
 
-    const handleToggle = value => () => {
-      const currentIndex = checked.indexOf(value);
-      const newChecked = [...checked];
-
-      if (currentIndex === -1) {
-        newChecked.push(value);
-      } else {
-        newChecked.splice(currentIndex, 1);
-      }
-
-      setChecked(newChecked);
-    };
-
     const handleAllRight = () => {
       setRight(right.concat(left));
       setLeft([]);
@@ -111,38 +92,6 @@ import MainButton from './components/MainButton';
       setRight([]);
     };
 
-
-    const customList = items => (
-      <Paper sx={{ width: 200, height: 230, overflow: 'auto' }}>
-        <List dense component="div" role="list">
-          {items.map((value) => {
-            const labelId = `transfer-list-item-${value}-label`;
-
-            return (
-              <ListItem
-                key={value}
-                role="listitem"
-                button
-                onClick={handleToggle(value)}
-              >
-                <ListItemIcon>
-                  <Checkbox
-                    checked={checked.indexOf(value) !== -1}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{
-                      'aria-labelledby': labelId,
-                    }}
-                  />
-                </ListItemIcon>
-                <ListItemText id={labelId} primary={value} />
-              </ListItem>
-            );
-          })}
-          <ListItem />
-        </List>
-      </Paper>
-    );
     
     return (
       <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', height: '100vh', textAlign: 'center', padding: '3rem'}}>
@@ -187,62 +136,30 @@ import MainButton from './components/MainButton';
           {/* お店の候補 */}
           <BasePaper title="お店の候補" width="50%">
             <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-              <Box>
-                <Typography variant="h5" component="h3">
-                    あり
-                </Typography>
-                {customList(left)}
+              <CustomeList title="あり" items={left} checked={checked} setChecked={setChecked} />
+              <Box sx={{display: 'flex', flexFlow: 'column', justifyContent: 'center', height: '100%'}}>
+                <TransferButton
+                  arrow=">>"
+                  onClick={handleAllRight}
+                  disabled={left.length === 0}
+                />
+                <TransferButton
+                  arrow=">"
+                  onClick={handleCheckedRight}
+                  disabled={leftChecked.length === 0}
+                />
+                <TransferButton
+                  arrow="<"
+                  onClick={handleCheckedLeft}
+                  disabled={rightChecked.length === 0}
+                />
+                <TransferButton
+                  arrow="<<"
+                  onClick={handleAllLeft}
+                  disabled={right.length === 0}
+                />
               </Box>
-              <Box>
-                <Box sx={{display: 'flex', flexFlow: 'column', justifyContent: 'center', height: '100%'}}>
-                  <Button
-                    sx={{ my: 0.5 }}
-                    variant="outlined"
-                    size="small"
-                    onClick={handleAllRight}
-                    disabled={left.length === 0}
-                    aria-label="move all right"
-                  >
-                    ≫
-                  </Button>
-                  <Button
-                    sx={{ my: 0.5 }}
-                    variant="outlined"
-                    size="small"
-                    onClick={handleCheckedRight}
-                    disabled={leftChecked.length === 0}
-                    aria-label="move selected right"
-                  >
-                    &gt;
-                  </Button>
-                  <Button
-                    sx={{ my: 0.5 }}
-                    variant="outlined"
-                    size="small"
-                    onClick={handleCheckedLeft}
-                    disabled={rightChecked.length === 0}
-                    aria-label="move selected left"
-                  >
-                    &lt;
-                  </Button>
-                  <Button
-                    sx={{ my: 0.5 }}
-                    variant="outlined"
-                    size="small"
-                    onClick={handleAllLeft}
-                    disabled={right.length === 0}
-                    aria-label="move all left"
-                  >
-                    ≪
-                  </Button>
-                </Box>
-              </Box>
-              <Box>
-                <Typography variant="h5" component="h3">
-                    なし
-                </Typography>
-                {customList(right)}
-                </Box>
+              <CustomeList title="なし" items={right} checked={checked} setChecked={setChecked} />
             </Box>
 
           </BasePaper>
