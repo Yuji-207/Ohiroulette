@@ -1,3 +1,5 @@
+import './App.css';
+
 import React from 'react';
 
 import Box from '@mui/material/Box';
@@ -106,7 +108,7 @@ import TransferButton from './components/TransferButton';
         </Box>
 
         {/* タイトル */}
-        <Typography fontSize={'3rem'} sx={{margin: '2rem 0', }}>
+        <Typography fontSize={'3rem'} sx={{margin: '2rem 0'}}>
           おひるーれっと
         </Typography>
 
@@ -133,7 +135,7 @@ import TransferButton from './components/TransferButton';
           </BasePaper>
 
           {/* お店の候補 */}
-          <BasePaper title="お店の候補" idth={{sm: 'auto', lg: '40%'}}>
+          <BasePaper title="お店の候補" width={{sm: 'auto', lg: '50%'}}>
             <Box sx={{display: 'flex', flexFlow: {xs: 'column', lg: 'row'}, justifyContent: 'space-between'}}>
               <CustomeList title="あり" items={left} checked={checked} setChecked={setChecked} />
               <Box sx={{display: 'flex', flexFlow: 'column', justifyContent: 'center', height: '100%'}}>
