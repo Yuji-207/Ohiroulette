@@ -164,7 +164,7 @@ import BasePaper from './components/BasePaper';
           
           {/* 行くお店 */}
           <BasePaper title="行くお店" width="40%">
-            <Typography variant="h3" component="p" sx={{height: '10rem'}}>
+            <Typography variant="h3" component="p">
               {choiced}
             </Typography>
             <Box>

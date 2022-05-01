@@ -9,7 +9,6 @@ import styled from '@mui/material/styles/styled';
 const StyledPaper = styled(Paper)(() => ({
   display: 'flex',
   flexFlow: 'column',
-  justifyContent: 'space-between',
   gap: '2rem',
   padding: '3rem',
 }));
@@ -19,7 +18,7 @@ const StyledBox = styled(Box)(() => ({
   height: '100%',
   display: 'flex',
   flexFlow: 'column',
-  justifyContent: 'space-evenly',
+  justifyContent: 'space-between',
 }));
 
 
