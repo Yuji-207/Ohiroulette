@@ -1,15 +1,14 @@
 import React from 'react';
 
-import {
-    Box,
-    Container,
-    Typography,
-  } from '@mui/material';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 
 import GitHubIcon from '@mui/icons-material/GitHub';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 import BasePaper from './components/BasePaper';
+import Header from './components/header/Header';
 import LinkIconButton from './components/LinkIconButton';
 import MainButton from './components/MainButton';
 import CustomeList from './components/CustomeList';
@@ -94,7 +93,7 @@ import TransferButton from './components/TransferButton';
 
     
     return (
-      <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', height: '100vh', textAlign: 'center', padding: '3rem'}}>
+      <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', height: '100vh', textAlign: 'center'}}>
 
         {/* リンクボタン */}
         <Box sx={{position: 'fixed', top: 0, right: 0, display: 'flex', padding: '1rem'}}>
@@ -107,14 +106,14 @@ import TransferButton from './components/TransferButton';
         </Box>
 
         {/* タイトル */}
-        <Typography variant="h1" sx={{margin: '2rem'}}>
+        <Typography fontSize={'3rem'} sx={{margin: '2rem 0', }}>
           おひるーれっと
         </Typography>
 
-        <Box sx={{display: 'flex', justifyContent: 'space-between', height: '100%', gap: '2rem'}}>
+        <Box sx={{display: 'flex', flexFlow: {xs: 'column', lg: 'row'}, justifyContent: 'space-between', height: '100%', gap: '2rem'}}>
           
           {/* 行くお店 */}
-          <BasePaper title="行くお店" width="40%">
+          <BasePaper title="行くお店" width={{xs: 'auto', lg: '40%'}}>
             <Box sx={{height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
               <Typography variant="h3" component="p">
                 {choiced}
@@ -134,8 +133,8 @@ import TransferButton from './components/TransferButton';
           </BasePaper>
 
           {/* お店の候補 */}
-          <BasePaper title="お店の候補" width="50%">
-            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+          <BasePaper title="お店の候補" idth={{sm: 'auto', lg: '40%'}}>
+            <Box sx={{display: 'flex', flexFlow: {xs: 'column', lg: 'row'}, justifyContent: 'space-between'}}>
               <CustomeList title="あり" items={left} checked={checked} setChecked={setChecked} />
               <Box sx={{display: 'flex', flexFlow: 'column', justifyContent: 'center', height: '100%'}}>
                 <TransferButton
