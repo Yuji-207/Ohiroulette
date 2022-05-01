@@ -1,21 +1,24 @@
 import React from 'react';
+
 import {
     Box,
     Button,
     Checkbox,
     Container,
-    Divider,
-    IconButton,
-    Link,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
-    TextField,
-    Tooltip,
     Typography,
     Paper,
   } from '@mui/material';
+
+import GitHubIcon from '@mui/icons-material/GitHub';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+
+import LinkIconButton from './components/LinkIconButton';
+
+
 
   const not = (a, b) => {
     return a.filter((value) => b.indexOf(value) === -1);
@@ -141,20 +144,15 @@ import {
     
     return (
       <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', height: '100vh', textAlign: 'center', padding: '3rem'}}>
+        
         {/* リンクボタン */}
         <Box sx={{position: 'fixed', top: 0, right: 0, display: 'flex', padding: '1rem'}}>
-          <Tooltip title="GitHubを見る" arrow>
-            <IconButton size="large" href="https://github.com/Yuji-207/Ohiroulette">
-              <i className="fa fa-github"></i>
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="寄付をする" arrow>
-            <IconButton size="large" href="https://square.link/u/UHk7emHC">
-              <span className="material-symbols-outlined" style={{fontVariationSettings: "'FILL' 1"}} >
-                volunteer_activism
-              </span>
-            </IconButton>
-        </Tooltip>
+          <LinkIconButton title="GitHubを見る" href="https://github.com/Yuji-207/Ohiroulette">
+            <GitHubIcon />
+          </LinkIconButton>
+          <LinkIconButton title="寄付をする" href="https://square.link/u/UHk7emHC">
+            <VolunteerActivismIcon />
+          </LinkIconButton>
         </Box>
 
         {/* タイトル */}
