@@ -16,8 +16,10 @@ import {
 import GitHubIcon from '@mui/icons-material/GitHub';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
-import LinkIconButton from './components/LinkIconButton';
 import BasePaper from './components/BasePaper';
+import BackgroundImages from './components/BackgroundImages';
+import LinkIconButton from './components/LinkIconButton';
+import MainButton from './components/MainButton';
 
 
   const not = (a, b) => {
@@ -164,22 +166,20 @@ import BasePaper from './components/BasePaper';
           
           {/* 行くお店 */}
           <BasePaper title="行くお店" width="40%">
-            <Typography variant="h3" component="p">
-              {choiced}
-            </Typography>
+            <Box sx={{height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              <Typography variant="h3" component="p">
+                {choiced}
+              </Typography>
+            </Box>
             <Box>
               {turnning ? (
-                <Button variant="contained" onClick={() => setTurnning(false)} sx={{padding: '2rem', margin: '2rem'}}>
-                  <Typography variant="h4" component="p" align="center">
-                    とめる
-                  </Typography>
-                </Button>
+                <MainButton onClick={() => setTurnning(false)}>
+                  とめる
+                </MainButton>
               ) : (
-                <Button variant="contained" onClick={() => setTurnning(true)} sx={{padding: '2rem', margin: '2rem'}}>
-                  <Typography variant="h4" component="p" align="center">
-                    まわす
-                  </Typography>
-                </Button>
+                <MainButton onClick={() => setTurnning(true)}>
+                  まわす
+                </MainButton>
               )}
             </Box>
           </BasePaper>
