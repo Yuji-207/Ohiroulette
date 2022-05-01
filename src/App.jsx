@@ -118,7 +118,7 @@ import TransferButton from './components/TransferButton';
           <BasePaper title="行くお店" width={{xs: 'auto', lg: '40%'}}>
             <Box sx={{height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
               <Typography variant="h3" component="p">
-                {choiced}
+                {!turnning && choiced === undefined ? '既知のバグです。もう1度ルーレットを回してください。' : choiced}
               </Typography>
             </Box>
             <Box>
