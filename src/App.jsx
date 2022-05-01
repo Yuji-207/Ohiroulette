@@ -17,7 +17,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 import LinkIconButton from './components/LinkIconButton';
-
+import BasePaper from './components/BasePaper';
 
 
   const not = (a, b) => {
@@ -144,7 +144,7 @@ import LinkIconButton from './components/LinkIconButton';
     
     return (
       <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', height: '100vh', textAlign: 'center', padding: '3rem'}}>
-        
+
         {/* リンクボタン */}
         <Box sx={{position: 'fixed', top: 0, right: 0, display: 'flex', padding: '1rem'}}>
           <LinkIconButton title="GitHubを見る" href="https://github.com/Yuji-207/Ohiroulette">
@@ -160,13 +160,11 @@ import LinkIconButton from './components/LinkIconButton';
           おひるーれっと
         </Typography>
 
-        {/* 行くお店 */}
         <Box sx={{display: 'flex', justifyContent: 'space-between', height: '100%', gap: '2rem'}}>
-          <Paper sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', gap: '2rem', width: '40%', padding: '3rem'}}>
-            <Typography variant="h4" component="h2">
-              行くお店
-            </Typography>
-            <Typography variant="h3" component="p">
+          
+          {/* 行くお店 */}
+          <BasePaper title="行くお店" width="40%">
+            <Typography variant="h3" component="p" sx={{height: '10rem'}}>
               {choiced}
             </Typography>
             <Box>
@@ -184,13 +182,10 @@ import LinkIconButton from './components/LinkIconButton';
                 </Button>
               )}
             </Box>
-          </Paper>
+          </BasePaper>
 
           {/* お店の候補 */}
-          <Paper sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', gap: '2rem', width: '50%', padding: '3rem'}}>
-            <Typography variant="h4" component="h2" >
-              お店の候補
-            </Typography>
+          <BasePaper title="お店の候補" width="50%">
             <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
               <Box>
                 <Typography variant="h5" component="h3">
@@ -250,7 +245,7 @@ import LinkIconButton from './components/LinkIconButton';
                 </Box>
             </Box>
 
-          </Paper>
+          </BasePaper>
 
         </Box>
       </Container>
