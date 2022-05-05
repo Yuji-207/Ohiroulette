@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 import Container from '@mui/material/Container';
 import { List } from '@mui/material';
+import { ListItem } from '@mui/material';
+import { ListItemText } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { Paper } from '@mui/material';
 
@@ -28,7 +30,7 @@ const intersection = (a, b) => {
 }
 
 
-const Home = () => {
+const Home = ({data}) => {
 
   const [turnning, setTurnning] = React.useState(false);
   const [choiced, setChoiced] = React.useState('今日のお昼は？');
@@ -99,49 +101,37 @@ const Home = () => {
     <>
       <Header />
       <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', textAlign: 'center', margin: '5rem 0 8rem 0'}}>
-
         <Box sx={{display: 'flex', flexFlow: {xs: 'column', lg: 'row'}, justifyContent: 'space-between', height: '100%', gap: '2rem'}}>
-
-          {/* お店の候補 */}
-          {/* <BasePaper title="お店の候補" width={{sm: 'auto', lg: '50%'}}>
-            <Box sx={{display: 'flex', flexFlow: {xs: 'column', lg: 'row'}, justifyContent: 'space-between'}}>
-              <CustomeList title="あり" items={left} checked={checked} setChecked={setChecked} />
-              <Box sx={{display: 'flex', flexFlow: 'column', justifyContent: 'center', height: '100%'}}>
-                <TransferButton
-                  arrow=">>"
-                  onClick={handleAllRight}
-                  disabled={left.length === 0}
-                />
-                <TransferButton
-                  arrow=">"
-                  onClick={handleCheckedRight}
-                  disabled={leftChecked.length === 0}
-                />
-                <TransferButton
-                  arrow="<"
-                  onClick={handleCheckedLeft}
-                  disabled={rightChecked.length === 0}
-                />
-                <TransferButton
-                  arrow="<<"
-                  onClick={handleAllLeft}
-                  disabled={right.length === 0}
-                />
-              </Box>
-              <CustomeList title="なし" items={right} checked={checked} setChecked={setChecked} />
-            </Box>
-
-          </BasePaper> */}
-
           <Paper>
             <Typography variant="h5" component="h2">
               お店の候補
             </Typography>
             <List>
-              test
+              {data.map((place, i) => (
+                <ListItem alignItems="flex-start" key={i}>
+                  <ListItemAvatar>
+                    <Avatar alt={place} src="/static/images/avatar/1.jpg" />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={place}
+                    secondary={
+                      <React.Fragment>
+                        <Typography
+                          sx={{ display: 'inline' }}
+                          component="span"
+                          variant="body2"
+                          color="text.primary"
+                        >
+                          Ali Connors
+                        </Typography>
+                        {" — I'll be in your neighborhood doing errands this…"}
+                      </React.Fragment>
+                    }
+                  />
+                </ListItem>
+              ))}
             </List>
           </Paper>
-
         </Box>
       </Container>
       <Box m={3} sx={{position: 'fixed', inset: 'auto 0 0 0', display: 'flex', justifyContent: 'center'}}>
@@ -158,16 +148,17 @@ const Home = () => {
 
 export const getServerSideProps = async context => {
 
-  await axios.get('/api/place-search')
+  let data;
+  await axios.get('http://localhost:3001/api/place-search')
     .then(res => {
-      console.log(JSON.stringify(res.data));
+      data = res.data;
     })
     .catch(err => {
       console.log(err);
     });
 
   return {
-    props: {},
+    props: {data},
   }
 
 }
