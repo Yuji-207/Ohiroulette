@@ -32,7 +32,7 @@ const intersection = (a, b) => {
 }
 
 
-const Home = ({data}) => {
+const Home = ({data, img}) => {
 
   const [turnning, setTurnning] = React.useState(false);
   const [choiced, setChoiced] = React.useState('今日のお昼は？');
@@ -112,22 +112,19 @@ const Home = ({data}) => {
               {data.map((place, i) => (
                 <ListItem alignItems="flex-start" key={i}>
                   <ListItemAvatar>
-                    <Avatar alt={place} src="/static/images/avatar/1.jpg" />
+                    <Avatar alt={place.name} src={img} />
                   </ListItemAvatar>
                   <ListItemText
-                    primary={place}
+                    primary={place.name}
                     secondary={
-                      <React.Fragment>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                        >
-                          Ali Connors
-                        </Typography>
-                        {" — I'll be in your neighborhood doing errands this…"}
-                      </React.Fragment>
+                      <Typography
+                        sx={{ display: 'inline' }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        {'★ ' + place.rating + ' '}
+                      </Typography>
                     }
                   />
                 </ListItem>
@@ -159,8 +156,17 @@ export const getServerSideProps = async context => {
       console.log(err);
     });
 
+    let img;
+    await axios.get('http://localhost:3001/api/place-search')
+      .then(res => {
+        img = res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
   return {
-    props: {data},
+    props: {data, img},
   }
 
 }

@@ -29,7 +29,13 @@ const placeSearch = async (req, res) => {
       const results = response.data.results;
       const places = [];
       for (const result of results) {
-        places.push(result.name)
+        const place = {
+          name: result.name,
+          // photo: result.photos[0],
+          rating: result.rating,
+          vicinity: result.vicinity,
+        }
+        places.push(place);
       }
       return res.status(200).json(places)
 
