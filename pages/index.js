@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 
 import Box from '@mui/material/Box';
@@ -94,7 +95,6 @@ const Home = () => {
     setRight([]);
   };
 
-  
   return (
     <>
       <Header />
@@ -154,5 +154,23 @@ const Home = () => {
     </>
   )
 }
+
+
+export const getServerSideProps = async context => {
+
+  await axios.get('/api/place-search')
+    .then(res => {
+      console.log(JSON.stringify(res.data));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+  return {
+    props: {},
+  }
+
+}
+
   
 export default Home;
