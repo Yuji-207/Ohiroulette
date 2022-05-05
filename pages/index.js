@@ -32,7 +32,7 @@ const intersection = (a, b) => {
 }
 
 
-const Home = ({data, img}) => {
+const Home = ({places, img}) => {
 
   const [turnning, setTurnning] = React.useState(false);
   const [choiced, setChoiced] = React.useState('今日のお昼は？');
@@ -109,7 +109,7 @@ const Home = ({data, img}) => {
               お店の候補
             </Typography>
             <List>
-              {data.map((place, i) => (
+              {places.map((place, i) => (
                 <ListItem alignItems="flex-start" key={i}>
                   <ListItemAvatar>
                     <Avatar alt={place.name} src={img} />
@@ -147,13 +147,14 @@ const Home = ({data, img}) => {
 
 export const getServerSideProps = async context => {
 
-  let data;
+  let places;
   await axios.get('http://localhost:3001/api/place-search')
     .then(res => {
-      data = res.data;
+      places = res.places;
     })
     .catch(err => {
       console.log(err);
+      places = [];
     });
 
     let img;
@@ -166,7 +167,7 @@ export const getServerSideProps = async context => {
       });
 
   return {
-    props: {data, img},
+    props: {places, img},
   }
 
 }
