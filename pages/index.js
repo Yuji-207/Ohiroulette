@@ -1,16 +1,20 @@
 import React from 'react';
 
 import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
 import Container from '@mui/material/Container';
+import { List } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import { Paper } from '@mui/material';
 
 import GitHubIcon from '@mui/icons-material/GitHub';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 import BasePaper from '@components/BasePaper';
+import CustomeList from '@components/CustomeList';
+import Header from '@components/header/Header';
 import LinkIconButton from '@components/LinkIconButton';
 import MainButton from '@components/MainButton';
-import CustomeList from '@components/CustomeList';
 import TransferButton from '@components/TransferButton';
 
 
@@ -92,78 +96,62 @@ const Home = () => {
 
   
   return (
-    <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', height: '100vh', textAlign: 'center'}}>
+    <>
+      <Header />
+      <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', textAlign: 'center', margin: '5rem 0 8rem 0'}}>
 
-      {/* リンクボタン */}
-      <Box sx={{position: 'fixed', top: 0, right: 0, display: 'flex', padding: '1rem'}}>
-        <LinkIconButton title="GitHubを見る" href="https://github.com/Yuji-207/Ohiroulette">
-          <GitHubIcon />
-        </LinkIconButton>
-        <LinkIconButton title="寄付をする" href="https://square.link/u/UHk7emHC">
-          <VolunteerActivismIcon />
-        </LinkIconButton>
-      </Box>
+        <Box sx={{display: 'flex', flexFlow: {xs: 'column', lg: 'row'}, justifyContent: 'space-between', height: '100%', gap: '2rem'}}>
 
-      {/* タイトル */}
-      <Typography variant='h1' sx={{margin: '2rem 0'}}>
-        おひるーれっと
-      </Typography>
-
-      <Box sx={{display: 'flex', flexFlow: {xs: 'column', lg: 'row'}, justifyContent: 'space-between', height: '100%', gap: '2rem'}}>
-        
-        {/* 行くお店 */}
-        <BasePaper title="行くお店" width={{xs: 'auto', lg: '40%'}}>
-          <Box sx={{height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <Typography variant="h3" component="p">
-              {!turnning && choiced === undefined ? '既知のバグです。もう1度ルーレットを回してください。' : choiced}
-            </Typography>
-          </Box>
-          <Box>
-            {turnning ? (
-              <MainButton onClick={() => setTurnning(false)}>
-                とめる
-              </MainButton>
-            ) : (
-              <MainButton onClick={() => setTurnning(true)}>
-                まわす
-              </MainButton>
-            )}
-          </Box>
-        </BasePaper>
-
-        {/* お店の候補 */}
-        <BasePaper title="お店の候補" width={{sm: 'auto', lg: '50%'}}>
-          <Box sx={{display: 'flex', flexFlow: {xs: 'column', lg: 'row'}, justifyContent: 'space-between'}}>
-            <CustomeList title="あり" items={left} checked={checked} setChecked={setChecked} />
-            <Box sx={{display: 'flex', flexFlow: 'column', justifyContent: 'center', height: '100%'}}>
-              <TransferButton
-                arrow=">>"
-                onClick={handleAllRight}
-                disabled={left.length === 0}
-              />
-              <TransferButton
-                arrow=">"
-                onClick={handleCheckedRight}
-                disabled={leftChecked.length === 0}
-              />
-              <TransferButton
-                arrow="<"
-                onClick={handleCheckedLeft}
-                disabled={rightChecked.length === 0}
-              />
-              <TransferButton
-                arrow="<<"
-                onClick={handleAllLeft}
-                disabled={right.length === 0}
-              />
+          {/* お店の候補 */}
+          {/* <BasePaper title="お店の候補" width={{sm: 'auto', lg: '50%'}}>
+            <Box sx={{display: 'flex', flexFlow: {xs: 'column', lg: 'row'}, justifyContent: 'space-between'}}>
+              <CustomeList title="あり" items={left} checked={checked} setChecked={setChecked} />
+              <Box sx={{display: 'flex', flexFlow: 'column', justifyContent: 'center', height: '100%'}}>
+                <TransferButton
+                  arrow=">>"
+                  onClick={handleAllRight}
+                  disabled={left.length === 0}
+                />
+                <TransferButton
+                  arrow=">"
+                  onClick={handleCheckedRight}
+                  disabled={leftChecked.length === 0}
+                />
+                <TransferButton
+                  arrow="<"
+                  onClick={handleCheckedLeft}
+                  disabled={rightChecked.length === 0}
+                />
+                <TransferButton
+                  arrow="<<"
+                  onClick={handleAllLeft}
+                  disabled={right.length === 0}
+                />
+              </Box>
+              <CustomeList title="なし" items={right} checked={checked} setChecked={setChecked} />
             </Box>
-            <CustomeList title="なし" items={right} checked={checked} setChecked={setChecked} />
-          </Box>
 
-        </BasePaper>
+          </BasePaper> */}
 
+          <Paper>
+            <Typography variant="h5" component="h2">
+              お店の候補
+            </Typography>
+            <List>
+              test
+            </List>
+          </Paper>
+
+        </Box>
+      </Container>
+      <Box m={3} sx={{position: 'fixed', inset: 'auto 0 0 0', display: 'flex', justifyContent: 'center'}}>
+        <Button variant="contained">
+          <Typography variant="h4" component="p" p={2}>
+            まわす
+          </Typography>
+        </Button>
       </Box>
-    </Container>
+    </>
   )
 }
   
