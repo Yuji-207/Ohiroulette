@@ -1,59 +1,27 @@
 import axios from 'axios';
 import React from 'react';
 
-import { Avatar } from '@mui/material';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
+import { Card } from '@mui/material';
+import { CardActions } from '@mui/material';
+import { CardContent } from '@mui/material';
+import { CardHeader } from '@mui/material';
+import { CardMedia } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import Container from '@mui/material/Container';
-import { List } from '@mui/material';
-import { ListItem } from '@mui/material';
-import { ListItemAvatar } from '@mui/material';
-import { ListItemText } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { Paper } from '@mui/material';
 
-import GitHubIcon from '@mui/icons-material/GitHub';
-import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
-
-import BasePaper from '@components/BasePaper';
-import CustomeList from '@components/CustomeList';
 import Header from '@components/header/Header';
-import LinkIconButton from '@components/LinkIconButton';
-import MainButton from '@components/MainButton';
-import TransferButton from '@components/TransferButton';
 
 
-const not = (a, b) => {
-  return a.filter((value) => b.indexOf(value) === -1);
-}
+const Home = (props) => {
 
-const intersection = (a, b) => {
-  return a.filter((value) => b.indexOf(value) !== -1);
-}
-
-
-const Home = ({places, img}) => {
-
+  const [places, setPlaces] = React.useState(props.places);
+  const [checked, setChecked] = React.useState([]);
   const [turnning, setTurnning] = React.useState(false);
   const [choiced, setChoiced] = React.useState('今日のお昼は？');
-  const [checked, setChecked] = React.useState([]);
-
-  const [left, setLeft] = React.useState([
-    '丸亀製麺',
-    'みなと庵',
-    'PARIYA',
-  ]);
-
-  const [right, setRight] = React.useState([
-    'CHOTARO',
-    '魚',
-    'ごはんやごはん',
-    '焼肉',
-    'ファミマ',
-    'サンマルクカフェサンマルクカフェ',
-    'ガスト',
-    'バーミヤン',
-  ]);
+  const [pagetoken, setPagetoken] = React.useState(props.pagetoken);
 
   // ルーレット
   React.useEffect(() => {
@@ -63,8 +31,8 @@ const Home = ({places, img}) => {
 
       const timerId = setInterval(() => {
         setChoiced(() => {
-          index = index < left.length ? index + 1 : 0;
-          setChoiced(left[index]);
+          index = index < checked.length ? index + 1 : 0;
+          setChoiced(checked[index]);
         })
       }, 50);
       
@@ -73,65 +41,62 @@ const Home = ({places, img}) => {
     }
   }, [turnning]);
 
-  const leftChecked = intersection(checked, left);
-  const rightChecked = intersection(checked, right);
-
-
-  const handleAllRight = () => {
-    setRight(right.concat(left));
-    setLeft([]);
-  };
-
-  const handleCheckedRight = () => {
-    setRight(right.concat(leftChecked));
-    setLeft(not(left, leftChecked));
-    setChecked(not(checked, leftChecked));
-  };
-
-  const handleCheckedLeft = () => {
-    setLeft(left.concat(rightChecked));
-    setRight(not(right, rightChecked));
-    setChecked(not(checked, rightChecked));
-  };
-
-  const handleAllLeft = () => {
-    setLeft(left.concat(right));
-    setRight([]);
-  };
+  // 追加読み込み
+  const handleLoad = async () => {
+    await axios.get('http://localhost:3001/api/place-search?pagetoken=' + pagetoken)
+      .then(res => {
+        setPagetoken(res.data.pagetoken);
+        setPlaces([...places, ...res.data.places])
+      })
+      .catch(err => {
+        setPagetoken('');
+        setPlaces([...places])
+      });
+  }
 
   return (
     <>
       <Header />
       <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', textAlign: 'center', margin: '5rem 0 8rem 0'}}>
-        <Box sx={{display: 'flex', flexFlow: {xs: 'column', lg: 'row'}, justifyContent: 'space-between', height: '100%', gap: '2rem'}}>
-          <Paper>
-            <Typography variant="h5" component="h2">
-              お店の候補
-            </Typography>
-            <List>
-              {places.map((place, i) => (
-                <ListItem alignItems="flex-start" key={i}>
-                  <ListItemAvatar>
-                    <Avatar alt={place.name} src={img} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={place.name}
-                    secondary={
-                      <Typography
-                        sx={{ display: 'inline' }}
-                        component="span"
-                        variant="body2"
-                        color="text.primary"
-                      >
-                        {'★ ' + place.rating + ' '}
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </Paper>
-        </Box>
+        <Typography variant="h5" component="h2" m={2}>
+          候補のお店を選択
+        </Typography>
+        {places.map((place, i) => (
+          <Box key={i} m={2}>
+            <Card sx={{maxWidth: 345}}>
+              <CardHeader
+                action={
+                  <Checkbox defaultChecked />
+                }
+                title={
+                  <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">{place.name}</Typography>
+                }
+                subheader={
+                  <Typography variant="subtitle2" component="p" align="left"color="text.secondary">{'★ ' + place.rating}</Typography>
+                }
+              />
+              {/* <CardMedia
+                component="img"
+                height="140"
+                image="/static/images/cards/contemplative-reptile.jpg"
+                alt={place.name}
+              /> */}
+              <CardContent>
+                <Typography variant="caption" align="left" color="text.secondary">
+                  {place.vicinity}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                {/* <Button size="small">詳しく見る</Button> */}
+              </CardActions>
+            </Card>
+          </Box>
+        ))}
+        {pagetoken !== '' && (
+          <Box m={2}>
+            <Button variant="outlined" onClick={handleLoad}>もっと見る</Button>
+          </Box>
+        )}
       </Container>
       <Box m={3} sx={{position: 'fixed', inset: 'auto 0 0 0', display: 'flex', justifyContent: 'center'}}>
         <Button variant="contained">
@@ -147,27 +112,23 @@ const Home = ({places, img}) => {
 
 export const getServerSideProps = async context => {
 
+  let pagetoken;
   let places;
   await axios.get('http://localhost:3001/api/place-search')
     .then(res => {
-      places = res.places;
+      pagetoken = res.data.pagetoken;
+      places = res.data.places;
     })
     .catch(err => {
       console.log(err);
+      pagetoken = ''
       places = [];
     });
 
-    let img;
-    await axios.get('http://localhost:3001/api/place-search')
-      .then(res => {
-        img = res.data;
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  let img = 'img';
 
   return {
-    props: {places, img},
+    props: {pagetoken, places, img},
   }
 
 }

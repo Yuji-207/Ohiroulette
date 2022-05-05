@@ -1,32 +1,31 @@
 import axios from 'axios';
+import addParams from '@utils/add-params';
 
 
 const placeSearch = async (req, res) => {
 
-  let url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?';
+  const pagetoken = req.query.pagetoken;
+  const url = addParams(
+    'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
+    {
+      location: process.env.LATITUDE + ',' + process.env.LONGITUDE,
+      language: 'ja',
+      maxprice: 3,
+      minprice: 0,
+      // opennow: true,
+      pagetoken: pagetoken === undefined ? '' : pagetoken,
+      // rankby: 'distance',
+      radius: 500,
+      type: 'restaurant',
+      key: process.env.API_KEY,
+    }
+  )
 
-  const params = {
-    location: process.env.LATITUDE + ',' + process.env.LONGITUDE,
-    language: 'ja',
-    maxprice: 3,
-    minprice: 0,
-    // opennow: true,
-    // pagetoken: null,  // next_page_token
-    rankby: 'distance',
-    type: 'restaurant',
-    key: process.env.API_KEY,
-  }
-
-  for (const key in params) {
-    url += key + '=' + params[key] + '&'
-  }
-
-  url.slice(0, -1);
-
-  await axios.get(url)
+await axios.get(url)
     .then(response => {
 
       const results = response.data.results;
+      
       const places = [];
       for (const result of results) {
         const place = {
@@ -37,12 +36,20 @@ const placeSearch = async (req, res) => {
         }
         places.push(place);
       }
-      return res.status(200).json(places)
+
+      const pagetoken = response.data.next_page_token;
+      
+      return res.status(200).json({
+        pagetoken: pagetoken === undefined ? '' : pagetoken,
+        places: places,
+      });
 
     })
     .catch(error => {
+      
       console.log(error);
-      return res.status(200).json({ name: 'John Doe' })
+      return res.status(200).json([]);
+
     });
 
 }
