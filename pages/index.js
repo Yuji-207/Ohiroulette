@@ -11,6 +11,7 @@ import { CardHeader } from '@mui/material';
 import { CardMedia } from '@mui/material';
 import { Checkbox } from '@mui/material';
 import Container from '@mui/material/Container';
+import { Skeleton } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 import Header from '@components/header/Header';
@@ -21,31 +22,30 @@ import getLocation from '@utils/get-location';
 
 
 
-const Home = (props) => {
+const Home = () => {
 
 
   const [places, setPlaces] = React.useState([]);
-  const [checked, setChecked] = React.useState(Array(places.length).fill(true));
-  const [button, setButton] = React.useState('まわす');
+  const [checked, setChecked] = React.useState([]);
+  const [button, setButton] = React.useState('');
 
 
+  // 現在地を取得
   React.useEffect(() => {
     (async () => {
-
-      let places = [];
-      let img = 'img';
       const location = await getLocation();
-    
       if (location.length === 2) {
         await axios.get('http://localhost:3000/api/place-search?location=' + location.join(','))
           .then(res => {
-            setPlaces(res.data.places);
+            const places = res.data.places;
+            setPlaces(places);
+            setChecked(Array(places.length).fill(true));
+            setButton('まわす');
           })
           .catch(err => {
             console.log(err);
           });
       }
-
     })();
   }, []);
 
@@ -131,8 +131,49 @@ const Home = (props) => {
       )}
       <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', textAlign: 'center', margin: '5rem 0 8rem 0'}}>
         <Typography variant="h5" component="h2" m={2}>
-          {button === 'まわす' ? '候補のお店をえらぶ' : button === 'とめる' ? '今日のお昼は？' : 'ここだよ！'}
+        {button === 'まわす' ? (
+          '候補のお店をえらぶ'
+        ) : button === 'とめる' ? (
+          '今日のお昼は？'
+        ) : button === 'りせっと' ? (
+          'ここだよ！'
+        ) : (
+          '現在地を取得しています…'
+        )}
         </Typography>
+        {places.length === 0 && [...Array(5).keys()].map((key) => (
+          <Box key={key} m={2}>
+            <Card sx={{maxWidth: 345}}>
+              <CardHeader
+                title={
+                  <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
+                    <Skeleton animation="wave" width="80%" />
+                  </Typography>
+                }
+                subheader={
+                  <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
+                    <Skeleton animation="wave" width="40%" />
+                  </Typography>
+                }
+              />
+              {/* <CardMedia
+                component="img"
+                height="140"
+                image="/static/images/cards/contemplative-reptile.jpg"
+                alt={place.name}
+              /> */}
+              <CardContent>
+                <Typography variant="caption" component="p" align="left" color="text.secondary">
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" width="80%" />
+                </Typography>
+              </CardContent>
+              {/* <CardActions>
+                <Button size="small">詳しく見る</Button>
+              </CardActions> */}
+            </Card>
+          </Box>
+        ))}
         {places.map((place, i) => (
           button === 'まわす' ? (
             <Box key={i} m={2}>
@@ -190,7 +231,7 @@ const Home = (props) => {
                   alt={place.name}
                 /> */}
                 <CardContent>
-                  <Typography variant="caption" align="left" color="text.secondary">
+                  <Typography variant="caption" component="p" align="left" color="text.secondary">
                     {place.vicinity}
                   </Typography>
                 </CardContent>
@@ -221,7 +262,7 @@ const Home = (props) => {
                 alt={place.name}
               /> */}
               <CardContent>
-                <Typography variant="caption" align="left" color="text.secondary">
+                <Typography variant="caption" component="p" align="left" color="text.secondary">
                   {place.vicinity}
                 </Typography>
               </CardContent>
@@ -233,13 +274,15 @@ const Home = (props) => {
           )
         ))}
       </Container>
-      <Box m={3} sx={{position: 'fixed', inset: 'auto 0 0 0', display: 'flex', justifyContent: 'center'}}>
-        <Button variant="contained" onClick={handleClick}>
-          <Typography variant="h4" component="p" p={2}>
-            {button}
-          </Typography>
-        </Button>
-      </Box>
+      {button !== '' && (
+        <Box m={3} sx={{position: 'fixed', inset: 'auto 0 0 0', display: 'flex', justifyContent: 'center'}}>
+          <Button variant="contained" onClick={handleClick}>
+            <Typography variant="h4" component="p" p={2}>
+              {button}
+            </Typography>
+          </Button>
+        </Box>
+      )}
     </>
   )
 }
