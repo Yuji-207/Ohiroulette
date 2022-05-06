@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Confetti from 'react-confetti'
 import React from 'react';
 
 import Box from '@mui/material/Box';
@@ -17,22 +18,58 @@ import Header from '@components/header/Header';
 
 const Home = (props) => {
 
+
   const [places, setPlaces] = React.useState(props.places);
   const [checked, setChecked] = React.useState(Array(places.length).fill(true));
   const [button, setButton] = React.useState('まわす');
+
 
   // ルーレット
   React.useEffect(() => {
     if (button === 'とめる') {
       const timerId = setInterval(() => {
-        const copied = [...places];
-        const shifted = copied.shift();
-        copied.push(shifted);
-        setPlaces(copied);
+
+        const copiedPlaces = [...places];
+        const copiedChecked = [...checked];
+        const trueCount = checked.filter(e => e === true).length;
+
+        if (trueCount >= 2) {
+
+          const index = checked.slice(1).indexOf(true) + 1;
+
+          const frontPlaces = copiedPlaces.slice(0, index);
+          const backPlaces = copiedPlaces.slice(index);
+          copiedPlaces = backPlaces.concat(frontPlaces);
+
+          const frontChecked = copiedChecked.slice(0, index);
+          const backChecked = copiedChecked.slice(index);
+          copiedChecked = backChecked.concat(frontChecked);
+
+        } else {
+
+          // エラー出したい
+
+          const index = checked.indexOf(true);
+
+          const frontPlaces = copiedPlaces.slice(0, index);
+          const backPlaces = copiedPlaces.slice(index);
+          copiedPlaces = backPlaces.concat(frontPlaces);
+
+          const frontChecked = copiedChecked.slice(0, index);
+          const backChecked = copiedChecked.slice(index);
+          copiedChecked = backChecked.concat(frontChecked);
+
+        }
+
+        setPlaces(copiedPlaces);
+        setChecked(copiedChecked);
+
       }, 30);
       return () => clearInterval(timerId);
     }
   }, [button, places]);
+
+  console.log(places[0])
 
 
   const handleCheck = e => {
@@ -42,7 +79,6 @@ const Home = (props) => {
     setChecked(copied);
   }
 
-  
 
   const handleClick = () => {
     if (button === 'まわす') {
@@ -51,6 +87,7 @@ const Home = (props) => {
       setButton('りせっと');
     } else {
       places.sort((a, b) => a.distance - b.distance);
+      setChecked(Array(places.length).fill(true));  // リセットしたくない checkedで管理したい
       setButton('まわす');
     }
   }
@@ -59,13 +96,21 @@ const Home = (props) => {
   return (
     <>
       <Header />
+      {button === 'りせっと' && (
+        <Confetti
+          width={window.innerWidth}
+          height={window.innerHeight}
+          confettiSource={{x: 0, y: window.innerHeight, w: window.innerWidth, h:0}}
+          initialVelocityY={15}
+          gravity={0.2}
+        />
+      )}
       <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', textAlign: 'center', margin: '5rem 0 8rem 0'}}>
- 
         <Typography variant="h5" component="h2" m={2}>
           {button === 'まわす' ? '候補のお店をえらぶ' : button === 'とめる' ? '今日のお昼は？' : 'ここだよ！'}
         </Typography>
         {places.map((place, i) => (
-          !(button === 'りせっと' && i > 0) && (
+          button === 'まわす' ? (
             <Box key={i} m={2}>
               <Card sx={{maxWidth: 345}}>
                 <CardHeader
@@ -99,6 +144,74 @@ const Home = (props) => {
                 </CardActions> */}
               </Card>
             </Box>
+          ) : button === 'とめる' ? checked[i] && (
+            <Box key={i} m={2}>
+              <Card sx={{maxWidth: 345}}>
+                <CardHeader
+                  action={
+                    <Checkbox id={'checkbox-' + i} defaultChecked onChange={handleCheck} />
+                  }
+                  title={
+                    <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
+                      {place.name}
+                    </Typography>
+                  }
+                  subheader={
+                    <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
+                      {'★ ' + place.rating + ' ー ここから ' + place.distance + ' m'}
+                    </Typography>
+                  }
+                />
+                {/* <CardMedia
+                  component="img"
+                  height="140"
+                  image="/static/images/cards/contemplative-reptile.jpg"
+                  alt={place.name}
+                /> */}
+                <CardContent>
+                  <Typography variant="caption" align="left" color="text.secondary">
+                    {place.vicinity}
+                  </Typography>
+                </CardContent>
+                {/* <CardActions>
+                  <Button size="small">詳しく見る</Button>
+                </CardActions> */}
+              </Card>
+            </Box>
+          ) : button === 'りせっと' && i === 0 &&(
+            <Box key={i} m={2}>
+            <Card sx={{maxWidth: 345}}>
+              <CardHeader
+                action={
+                  <Checkbox id={'checkbox-' + i} defaultChecked onChange={handleCheck} />
+                }
+                title={
+                  <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
+                    {place.name}
+                  </Typography>
+                }
+                subheader={
+                  <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
+                    {'★ ' + place.rating + ' ー ここから ' + place.distance + ' m'}
+                  </Typography>
+                }
+              />
+              {/* <CardMedia
+                component="img"
+                height="140"
+                image="/static/images/cards/contemplative-reptile.jpg"
+                alt={place.name}
+              /> */}
+              <CardContent>
+                <Typography variant="caption" align="left" color="text.secondary">
+                  {place.vicinity}
+                </Typography>
+              </CardContent>
+              {/* <CardActions>
+                <Button size="small">詳しく見る</Button>
+              </CardActions> */}
+            </Card>
+          </Box>
           )
         ))}
       </Container>
