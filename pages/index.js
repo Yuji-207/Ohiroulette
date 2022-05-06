@@ -101,7 +101,7 @@ const Home = (props) => {
           width={window.innerWidth}
           height={window.innerHeight}
           confettiSource={{x: 0, y: window.innerHeight, w: window.innerWidth, h:0}}
-          initialVelocityY={15}
+          initialVelocityY={20}
           gravity={0.2}
         />
       )}
