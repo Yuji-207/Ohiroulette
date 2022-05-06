@@ -148,9 +148,6 @@ const Home = (props) => {
             <Box key={i} m={2}>
               <Card sx={{maxWidth: 345}}>
                 <CardHeader
-                  action={
-                    <Checkbox id={'checkbox-' + i} defaultChecked onChange={handleCheck} />
-                  }
                   title={
                     <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
                       {place.name}
@@ -182,9 +179,6 @@ const Home = (props) => {
             <Box key={i} m={2}>
             <Card sx={{maxWidth: 345}}>
               <CardHeader
-                action={
-                  <Checkbox id={'checkbox-' + i} defaultChecked onChange={handleCheck} />
-                }
                 title={
                   <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
                     {place.name}
