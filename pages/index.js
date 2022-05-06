@@ -15,6 +15,11 @@ import Typography from '@mui/material/Typography';
 
 import Header from '@components/header/Header';
 
+import getLocation from '@utils/get-location';
+
+
+
+
 
 const Home = (props) => {
 
@@ -22,7 +27,21 @@ const Home = (props) => {
   const [places, setPlaces] = React.useState(props.places);
   const [checked, setChecked] = React.useState(Array(places.length).fill(true));
   const [button, setButton] = React.useState('まわす');
+  const [location, setLocation] = React.useState([]);
 
+  // 現在地を取得
+  React.useEffect(() => {
+    (async () => {
+      const location = await getLocation();
+      if (location.length > 0) {
+        setLocation(location);
+      } else {
+        console.log('現在地が取得できませんでした')
+      }
+    })()
+  }, []);
+
+  console.log(location)
 
   // ルーレット
   React.useEffect(() => {
@@ -68,8 +87,6 @@ const Home = (props) => {
       return () => clearInterval(timerId);
     }
   }, [button, places]);
-
-  console.log(places[0])
 
 
   const handleCheck = e => {
@@ -135,7 +152,7 @@ const Home = (props) => {
                   alt={place.name}
                 /> */}
                 <CardContent>
-                  <Typography variant="caption" align="left" color="text.secondary">
+                  <Typography variant="caption" component="p" align="left" color="text.secondary">
                     {place.vicinity}
                   </Typography>
                 </CardContent>
@@ -226,7 +243,7 @@ export const getServerSideProps = async context => {
   let places = [];
   let img = 'img';
 
-  await axios.get('http://localhost:3001/api/place-search')
+  await axios.get('http://localhost:3000/api/place-search')
     .then(res => {
       places = res.data.places;
     })
