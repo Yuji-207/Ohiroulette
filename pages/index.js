@@ -21,7 +21,6 @@ const Home = (props) => {
   const [checked, setChecked] = React.useState([]);
   const [turnning, setTurnning] = React.useState(false);
   const [choiced, setChoiced] = React.useState('今日のお昼は？');
-  const [pagetoken, setPagetoken] = React.useState(props.pagetoken);
 
   // ルーレット
   React.useEffect(() => {
@@ -41,19 +40,6 @@ const Home = (props) => {
     }
   }, [turnning]);
 
-  // 追加読み込み
-  const handleLoad = async () => {
-    await axios.get('http://localhost:3001/api/place-search?pagetoken=' + pagetoken)
-      .then(res => {
-        setPagetoken(res.data.pagetoken);
-        setPlaces([...places, ...res.data.places])
-      })
-      .catch(err => {
-        setPagetoken('');
-        setPlaces([...places])
-      });
-  }
-
   return (
     <>
       <Header />
@@ -69,10 +55,14 @@ const Home = (props) => {
                   <Checkbox defaultChecked />
                 }
                 title={
-                  <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">{place.name}</Typography>
+                  <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
+                    {place.name}
+                  </Typography>
                 }
                 subheader={
-                  <Typography variant="subtitle2" component="p" align="left"color="text.secondary">{'★ ' + place.rating}</Typography>
+                  <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
+                    {'★ ' + place.rating + ' ー ここから ' + place.distance + ' m'}
+                  </Typography>
                 }
               />
               {/* <CardMedia
@@ -86,17 +76,12 @@ const Home = (props) => {
                   {place.vicinity}
                 </Typography>
               </CardContent>
-              <CardActions>
-                {/* <Button size="small">詳しく見る</Button> */}
-              </CardActions>
+              {/* <CardActions>
+                <Button size="small">詳しく見る</Button>
+              </CardActions> */}
             </Card>
           </Box>
         ))}
-        {pagetoken !== '' && (
-          <Box m={2}>
-            <Button variant="outlined" onClick={handleLoad}>もっと見る</Button>
-          </Box>
-        )}
       </Container>
       <Box m={3} sx={{position: 'fixed', inset: 'auto 0 0 0', display: 'flex', justifyContent: 'center'}}>
         <Button variant="contained">
@@ -112,23 +97,19 @@ const Home = (props) => {
 
 export const getServerSideProps = async context => {
 
-  let pagetoken;
-  let places;
+  let places = [];
+  let img = 'img';
+
   await axios.get('http://localhost:3001/api/place-search')
     .then(res => {
-      pagetoken = res.data.pagetoken;
       places = res.data.places;
     })
     .catch(err => {
       console.log(err);
-      pagetoken = ''
-      places = [];
     });
 
-  let img = 'img';
-
   return {
-    props: {pagetoken, places, img},
+    props: {places, img},
   }
 
 }
