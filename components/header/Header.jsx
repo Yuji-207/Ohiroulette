@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
+import ArticleIcon from '@mui/icons-material/Article';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LunchDiningIcon from '@mui/icons-material/LunchDining';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -43,6 +44,9 @@ const Header = () => {
           
           {/* ボタンメニュー */}
           <Box sx={{position: 'absolute', right: '0.2rem'}}>
+            {/* <HeaderIcon title="開発ログを見る" href="">
+              <ArticleIcon />
+            </HeaderIcon> */}
             <HeaderIcon title="GitHubを見る" href="https://github.com/Yuji-207/Ohiroulette">
               <GitHubIcon />
             </HeaderIcon>

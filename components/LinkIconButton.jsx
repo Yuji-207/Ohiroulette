@@ -9,12 +9,14 @@ const LinkIconButton = (props) => {
   const {
     title,
     href,
+    size,
+    sx,
     children,
   } = props;
 
   return (
     <Tooltip title={title} arrow>
-      <IconButton size="large" href={href}>
+      <IconButton size="large" href={href} sx={sx}>
         {children}
       </IconButton>
     </Tooltip>
