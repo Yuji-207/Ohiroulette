@@ -37,7 +37,7 @@ const Home = (props) => {
       const location = await getLocation();
     
       if (location.length === 2) {
-        await axios.get('http://localhost:3000/api/place-search?location=' + location.join(','))
+        await axios.get('https://ohiroulette.vercel.app/api/place-search?location=' + location.join(','))
           .then(res => {
             setPlaces(res.data.places);
           })
