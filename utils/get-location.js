@@ -10,10 +10,10 @@ const getLocation = async () => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude
 
-    return [latitude, longitude]
+    return [latitude, longitude];
 
   } catch (GeolocationPositionError) {
-    return []
+    return [];
   }
 }
 

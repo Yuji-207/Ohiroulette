@@ -24,24 +24,31 @@ import getLocation from '@utils/get-location';
 const Home = (props) => {
 
 
-  const [places, setPlaces] = React.useState(props.places);
+  const [places, setPlaces] = React.useState([]);
   const [checked, setChecked] = React.useState(Array(places.length).fill(true));
   const [button, setButton] = React.useState('まわす');
-  const [location, setLocation] = React.useState([]);
 
-  // 現在地を取得
+
   React.useEffect(() => {
     (async () => {
+
+      let places = [];
+      let img = 'img';
       const location = await getLocation();
-      if (location.length > 0) {
-        setLocation(location);
-      } else {
-        console.log('現在地が取得できませんでした')
+    
+      if (location.length === 2) {
+        await axios.get('http://localhost:3000/api/place-search?location=' + location.join(','))
+          .then(res => {
+            setPlaces(res.data.places);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
-    })()
+
+    })();
   }, []);
 
-  console.log(location)
 
   // ルーレット
   React.useEffect(() => {
@@ -235,26 +242,6 @@ const Home = (props) => {
       </Box>
     </>
   )
-}
-
-
-export const getServerSideProps = async context => {
-
-  let places = [];
-  let img = 'img';
-
-  await axios.get('http://localhost:3000/api/place-search')
-    .then(res => {
-      places = res.data.places;
-    })
-    .catch(err => {
-      console.log(err);
-    });
-
-  return {
-    props: {places, img},
-  }
-
 }
 
   
