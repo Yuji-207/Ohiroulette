@@ -15,13 +15,39 @@ import Typography from '@mui/material/Typography';
 
 import Header from '@components/header/Header';
 
+import getLocation from '@utils/get-location';
+
+
+
+
 
 const Home = (props) => {
 
 
-  const [places, setPlaces] = React.useState(props.places);
+  const [places, setPlaces] = React.useState([]);
   const [checked, setChecked] = React.useState(Array(places.length).fill(true));
   const [button, setButton] = React.useState('まわす');
+
+
+  React.useEffect(() => {
+    (async () => {
+
+      let places = [];
+      let img = 'img';
+      const location = await getLocation();
+    
+      if (location.length === 2) {
+        await axios.get('http://localhost:3000/api/place-search?location=' + location.join(','))
+          .then(res => {
+            setPlaces(res.data.places);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+
+    })();
+  }, []);
 
 
   // ルーレット
@@ -69,8 +95,6 @@ const Home = (props) => {
     }
   }, [button, places]);
 
-  console.log(places[0])
-
 
   const handleCheck = e => {
     const copied = [...checked];
@@ -101,7 +125,7 @@ const Home = (props) => {
           width={window.innerWidth}
           height={window.innerHeight}
           confettiSource={{x: 0, y: window.innerHeight, w: window.innerWidth, h:0}}
-          initialVelocityY={15}
+          initialVelocityY={20}
           gravity={0.2}
         />
       )}
@@ -135,7 +159,7 @@ const Home = (props) => {
                   alt={place.name}
                 /> */}
                 <CardContent>
-                  <Typography variant="caption" align="left" color="text.secondary">
+                  <Typography variant="caption" component="p" align="left" color="text.secondary">
                     {place.vicinity}
                   </Typography>
                 </CardContent>
@@ -218,26 +242,6 @@ const Home = (props) => {
       </Box>
     </>
   )
-}
-
-
-export const getServerSideProps = async context => {
-
-  let places = [];
-  let img = 'img';
-
-  await axios.get('http://localhost:3001/api/place-search')
-    .then(res => {
-      places = res.data.places;
-    })
-    .catch(err => {
-      console.log(err);
-    });
-
-  return {
-    props: {places, img},
-  }
-
 }
 
   
