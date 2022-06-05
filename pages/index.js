@@ -50,6 +50,10 @@ const Home = () => {
   }, []);
 
 
+  console.log('hoge')
+  console.log({places})
+
+
   // ルーレット
   React.useEffect(() => {
     if (button === 'とめる') {
