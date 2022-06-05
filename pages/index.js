@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Confetti from 'react-confetti'
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
@@ -28,6 +29,7 @@ const Home = () => {
   const [places, setPlaces] = React.useState([]);
   const [checked, setChecked] = React.useState([]);
   const [button, setButton] = React.useState('');
+  const router = useRouter();
 
 
   // 現在地を取得
@@ -35,7 +37,7 @@ const Home = () => {
     (async () => {
       const location = await getLocation();
       if (location.length === 2) {
-        await axios.get('http://localhost:3000/api/place-search?location=' + location.join(','))
+        await axios.get('https://ohiroulette.vercel.app/api/place-search?location=' + location.join(','))
           .then(res => {
             const places = res.data.places;
             setPlaces(places);
