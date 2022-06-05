@@ -1,34 +1,37 @@
 import React from 'react';
 
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 import { Card } from '@mui/material';
 import { CardActions } from '@mui/material';
 import { CardContent } from '@mui/material';
 import { CardHeader } from '@mui/material';
 import { CardMedia } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Checkbox } from '@mui/material';
+import { Typography } from '@mui/material';
 
 
 // カード全体をボタンにしたい
 const CheckCard = props => {
 
   const {
+    id,  // 廃止したい
     header,
     subheader,
     content,
-    handleCheck,
+    onChange,
   } = props;
 
   return (
     <Box m={2}>
       <Card sx={{maxWidth: 345}}>
         <CardHeader
-          action={
+          action={onChange !== undefined && (
             <Checkbox
+              id={id}
               defaultChecked
-              onChange={handleCheck}
+              onChange={onChange}
             />
-          }
+          )}
           title={
             <Typography
               variant="subtitle1"
