@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Confetti from 'react-confetti'
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
@@ -28,6 +29,7 @@ const Home = () => {
   const [places, setPlaces] = React.useState([]);
   const [checked, setChecked] = React.useState([]);
   const [button, setButton] = React.useState('');
+  const router = useRouter();
 
 
   // 現在地を取得
@@ -48,6 +50,10 @@ const Home = () => {
       }
     })();
   }, []);
+
+
+  console.log('hoge')
+  console.log({places})
 
 
   // ルーレット
