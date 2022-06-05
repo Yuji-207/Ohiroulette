@@ -37,14 +37,13 @@ const Home = () => {
       if (location.length === 2 && typeof document !== undefined) {
         await axios.get(document.location.origin + '/api/place-search?location=' + location.join(','))  // BASE_URLの設定方法を変更したい
         .then(res => {
-          console.log({res})
           const places = res.data.places;
           setPlaces(places);
           setChecked(Array(places.length).fill(true));
           setButton('まわす');
         })
         .catch(err => {
-          console.log(err);
+          console.log({err});
         });
       }
     })();
