@@ -1,6 +1,6 @@
 import axios from 'axios';
 import addParams from '@utils/add-params';
-import calcDistance from '@utils/calc-distance';
+import calcDistance from '@utils/calc-time';
 
 
 const placeSearch = async (req, res) => {
