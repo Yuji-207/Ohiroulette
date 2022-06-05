@@ -13,7 +13,7 @@ const placeSearch = async (req, res) => {
     language: 'ja',
     maxprice: 3,
     minprice: 0,
-    // opennow: true,
+    opennow: true,
     // pagetoken: '',
     rankby: 'distance',
     // radius: 500,
@@ -40,7 +40,7 @@ const placeSearch = async (req, res) => {
 
     })
     .catch(error => {
-      console.log(error);
+      console.log({error});
     });
 
   return res.status(200).json({places: places});
