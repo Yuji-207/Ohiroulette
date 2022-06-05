@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Confetti from 'react-confetti'
 import React from 'react';
-import { useRouter } from 'next/router';
 
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
@@ -29,30 +28,24 @@ const Home = () => {
   const [places, setPlaces] = React.useState([]);
   const [checked, setChecked] = React.useState([]);
   const [button, setButton] = React.useState('');
-  const router = useRouter();
 
 
   // 現在地を取得
   React.useEffect(() => {
     (async () => {
       const location = await getLocation();
-      if (location.length === 2) {
-
-        if (typeof document !== undefined && typeof window !== undefined) {
-         console.log(document.location.origin)
-        }
-        
-
-        await axios.get(document.location.origin + '/api/place-search?location=' + location.join(','))
-          .then(res => {
-            const places = res.data.places;
-            setPlaces(places);
-            setChecked(Array(places.length).fill(true));
-            setButton('まわす');
-          })
-          .catch(err => {
-            console.log(err);
-          });
+      if (location.length === 2 && typeof document !== undefined) {
+        await axios.get(document.location.origin + '/api/place-search?location=' + location.join(','))  // BASE_URLの設定方法を変更したい
+        .then(res => {
+          console.log({res})
+          const places = res.data.places;
+          setPlaces(places);
+          setChecked(Array(places.length).fill(true));
+          setButton('まわす');
+        })
+        .catch(err => {
+          console.log(err);
+        });
       }
     })();
   }, []);
