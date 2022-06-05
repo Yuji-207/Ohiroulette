@@ -6,8 +6,7 @@ const App = ({Component, pageProps}) => {
     <>
       <Head>
         <title>おひるーれっと</title>
-        <description>今日のお昼ごはんを決めよう！</description>
-        <meta property="og:description" content=" ページの説明文" />
+        <meta property="description" content="今日のお昼ごはんを決めよう！" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Component {...pageProps} />
