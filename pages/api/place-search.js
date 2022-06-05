@@ -25,7 +25,7 @@ const placeSearch = async (req, res) => {
   await axios.get(addParams(url, params))
     .then(response => {
       
-      console.log({response})
+      places.push(response)
       const data = response.data;
       
       for (const result of data.results) {
@@ -42,6 +42,7 @@ const placeSearch = async (req, res) => {
     })
     .catch(error => {
       console.log({error});
+      places.push(error)
     });
 
   return res.status(200).json({places: places});
