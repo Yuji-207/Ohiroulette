@@ -37,7 +37,13 @@ const Home = () => {
     (async () => {
       const location = await getLocation();
       if (location.length === 2) {
-        await axios.get('https://ohiroulette.vercel.app/api/place-search?location=' + location.join(','))
+
+        if (typeof document !== undefined && typeof window !== undefined) {
+         console.log(document.location.origin)
+        }
+        
+
+        await axios.get(document.location.origin + '/api/place-search?location=' + location.join(','))
           .then(res => {
             const places = res.data.places;
             setPlaces(places);
