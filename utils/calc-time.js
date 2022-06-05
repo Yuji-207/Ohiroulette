@@ -14,8 +14,8 @@ const calcTime = (lat1, lng1, lat2, lng2) => {
   let distance = Math.acos(Math.cos(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1) + Math.sin(lat1) * Math.sin(lat2));
   distance *= RADIUS;
 
-  // 距離[km]を移動時間[m/minutes]に変換
-  const time = Math.round(distance * 1000 / VELOCITY);
+  // 距離[km]を移動時間[m/minutes]に変換（1分余分に追加）
+  const time = Math.round(distance * 1000 / VELOCITY) + 1;
 
   return time;
   
