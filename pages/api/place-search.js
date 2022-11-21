@@ -1,6 +1,6 @@
 import axios from 'axios';
 import addParams from '@utils/add-params';
-import calcDistance from '@utils/calc-time';
+import calcTime from '@utils/calc-time';
 
 
 const placeSearch = async (req, res) => {
@@ -34,7 +34,7 @@ const placeSearch = async (req, res) => {
           // photo: result.photos[0],
           rating: result.rating,
           vicinity: result.vicinity,
-          distance: calcDistance(...currentLocation.split(','), location.lat, location.lng),
+          distance: calcTime(...currentLocation.split(','), location.lat, location.lng),
         });
       }
 

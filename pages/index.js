@@ -15,8 +15,10 @@ import { Skeleton } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 import Header from '@components/header/Header';
+import PrimaryButton from '@components/PrimaryButton';
 
 import getLocation from '@utils/get-location';
+import CheckCard from '@components/CheckCard';
 
 
 
@@ -26,7 +28,7 @@ const Home = () => {
 
 
   const [places, setPlaces] = React.useState([]);
-  const [checked, setChecked] = React.useState([]);
+  const [checked, setChecked] = React.useState([]);  // placesに統合する
   const [button, setButton] = React.useState('');
 
 
@@ -124,12 +126,23 @@ const Home = () => {
         <Confetti
           width={window.innerWidth}
           height={window.innerHeight}
-          confettiSource={{x: 0, y: window.innerHeight, w: window.innerWidth, h:0}}
+          confettiSource={{
+            x: 0,
+            y: window.innerHeight,
+            w: window.innerWidth,
+            h: 0,
+          }}
           initialVelocityY={20}
           gravity={0.2}
         />
       )}
-      <Container sx={{display: 'flex', flexFlow: 'column', justifyContent: 'space-between', textAlign: 'center', margin: '5rem 0 8rem 0'}}>
+      <Container sx={{
+        display: 'flex',
+        flexFlow: 'column',
+        justifyContent: 'space-between',
+        textAlign: 'center',
+        margin: '5rem 0 8rem 0',
+      }}>
         <Typography variant="h5" component="h2" m={2}>
         {button === 'まわす' ? (
           '候補のお店をえらぶ'
@@ -142,146 +155,49 @@ const Home = () => {
         )}
         </Typography>
         {places.length === 0 && [...Array(5).keys()].map((key) => (
-          <Box key={key} m={2}>
-            <Card sx={{maxWidth: 345}}>
-              <CardHeader
-                title={
-                  <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
-                    <Skeleton animation="wave" width="80%" />
-                  </Typography>
-                }
-                subheader={
-                  <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
-                    <Skeleton animation="wave" width="40%" />
-                  </Typography>
-                }
-              />
-              {/* <CardMedia
-                component="img"
-                height="140"
-                image="/static/images/cards/contemplative-reptile.jpg"
-                alt={place.name}
-              /> */}
-              <CardContent>
-                <Typography variant="caption" component="p" align="left" color="text.secondary">
-                  <Skeleton animation="wave" />
-                  <Skeleton animation="wave" width="80%" />
-                </Typography>
-              </CardContent>
-              {/* <CardActions>
-                <Button size="small">詳しく見る</Button>
-              </CardActions> */}
-            </Card>
-          </Box>
+          <CheckCard
+            key={key}
+            header={<Skeleton animation="wave" width="80%" />}
+            subheader={<Skeleton animation="wave" width="40%" />}
+            content={
+              <>
+                <Skeleton animation="wave" />
+                <Skeleton animation="wave" width="80%" />
+              </>
+            }
+          />
         ))}
         {places.map((place, i) => (
           button === 'まわす' ? (
-            <Box key={i} m={2}>
-              <Card sx={{maxWidth: 345}}>
-                <CardHeader
-                  action={
-                    <Checkbox id={'checkbox-' + i} defaultChecked onChange={handleCheck} />
-                  }
-                  title={
-                    <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
-                      {place.name}
-                    </Typography>
-                  }
-                  subheader={
-                    <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
-                      {'★ ' + place.rating + ' ー ここから徒歩 ' + place.distance + '分'}
-                    </Typography>
-                  }
-                />
-                {/* <CardMedia
-                  component="img"
-                  height="140"
-                  image="/static/images/cards/contemplative-reptile.jpg"
-                  alt={place.name}
-                /> */}
-                <CardContent>
-                  <Typography variant="caption" component="p" align="left" color="text.secondary">
-                    {place.vicinity}
-                  </Typography>
-                </CardContent>
-                {/* <CardActions>
-                  <Button size="small">詳しく見る</Button>
-                </CardActions> */}
-              </Card>
-            </Box>
+            <CheckCard
+              key={i}
+              id={'checkbox-' + i}
+              header={place.name}
+              subheader={'★ ' + place.rating + ' ー ここから徒歩 ' + place.distance + '分'}
+              content={place.vicinity}
+              onChange={handleCheck}
+            />
           ) : button === 'とめる' ? checked[i] && (
-            <Box key={i} m={2}>
-              <Card sx={{maxWidth: 345}}>
-                <CardHeader
-                  title={
-                    <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
-                      {place.name}
-                    </Typography>
-                  }
-                  subheader={
-                    <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
-                      {'★ ' + place.rating + ' ー ここから ' + place.distance + ' m'}
-                    </Typography>
-                  }
-                />
-                {/* <CardMedia
-                  component="img"
-                  height="140"
-                  image="/static/images/cards/contemplative-reptile.jpg"
-                  alt={place.name}
-                /> */}
-                <CardContent>
-                  <Typography variant="caption" component="p" align="left" color="text.secondary">
-                    {place.vicinity}
-                  </Typography>
-                </CardContent>
-                {/* <CardActions>
-                  <Button size="small">詳しく見る</Button>
-                </CardActions> */}
-              </Card>
-            </Box>
+            <CheckCard
+              key={i}
+              header={place.name}
+              subheader={'★ ' + place.rating + ' ー ここから徒歩 ' + place.distance + '分'}
+              content={place.vicinity}
+            />
           ) : button === 'りせっと' && i === 0 &&(
-            <Box key={i} m={2}>
-            <Card sx={{maxWidth: 345}}>
-              <CardHeader
-                title={
-                  <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
-                    {place.name}
-                  </Typography>
-                }
-                subheader={
-                  <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
-                    {'★ ' + place.rating + ' ー ここから ' + place.distance + ' m'}
-                  </Typography>
-                }
-              />
-              {/* <CardMedia
-                component="img"
-                height="140"
-                image="/static/images/cards/contemplative-reptile.jpg"
-                alt={place.name}
-              /> */}
-              <CardContent>
-                <Typography variant="caption" component="p" align="left" color="text.secondary">
-                  {place.vicinity}
-                </Typography>
-              </CardContent>
-              {/* <CardActions>
-                <Button size="small">詳しく見る</Button>
-              </CardActions> */}
-            </Card>
-          </Box>
+            <CheckCard
+              key={i}
+              header={place.name}
+              subheader={'★ ' + place.rating + ' ー ここから徒歩 ' + place.distance + '分'}
+              content={place.vicinity}
+            />
           )
         ))}
       </Container>
       {button !== '' && (
-        <Box m={3} sx={{position: 'fixed', inset: 'auto 0 0 0', display: 'flex', justifyContent: 'center'}}>
-          <Button variant="contained" onClick={handleClick}>
-            <Typography variant="h4" component="p" p={2}>
-              {button}
-            </Typography>
-          </Button>
-        </Box>
+        <PrimaryButton onClick={handleClick}>
+          {button}
+        </PrimaryButton>
       )}
     </>
   )
