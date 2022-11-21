@@ -189,7 +189,7 @@ const Home = () => {
                   }
                   subheader={
                     <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
-                      {'★ ' + place.rating + ' ー ここから ' + place.distance + ' m'}
+                      {'★ ' + place.rating + ' ー ここから徒歩 ' + place.distance + '分'}
                     </Typography>
                   }
                 />
