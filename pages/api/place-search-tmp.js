@@ -33,7 +33,6 @@ const placeSearchTmp = async (req, res) => {
 
     await axios.get(addParams(baseUrl, params))
     .then(response => {
-      console.log(response.data)
       const result = response.data.result;
       
       const location = result.geometry.location;
