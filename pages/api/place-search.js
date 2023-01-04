@@ -24,12 +24,12 @@ const placeSearch = async (req, res) => {
   const places = [];
   await axios.get(addParams(url, params))
     .then(response => {
-      
       const data = response.data;
       
       for (const result of data.results) {
         const location = result.geometry.location;
         places.push({
+          id: result.place_id,
           name: result.name,
           // photo: result.photos[0],
           rating: result.rating,
