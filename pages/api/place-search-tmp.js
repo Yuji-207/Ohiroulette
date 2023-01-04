@@ -31,7 +31,6 @@ const placeSearchTmp = async (req, res) => {
       key: process.env.API_KEY,
     };
 
-    console.log(addParams(baseUrl, params))
     await axios.get(addParams(baseUrl, params))
     .then(response => {
       console.log(response.data)
