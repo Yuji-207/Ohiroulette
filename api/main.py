@@ -1,13 +1,20 @@
-from attrdict import AttrDict
-from fastapi import FastAPI
-
-from dotenv import load_dotenv
 import os
+
 import requests
+from attrdict import AttrDict
+from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_origins=["*"],
+)
 
 load_dotenv(".env")
 key = os.environ.get("API_KEY")
@@ -23,7 +30,7 @@ class Place(BaseModel):
 
 @app.get("/places/near", response_model=list[Place])
 def read_root(latitude: float, longitude: float):
-    url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json'
+    url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
     params = {
         "location": f"{latitude},{longitude}",
         "language": "ja",
@@ -39,28 +46,30 @@ def read_root(latitude: float, longitude: float):
 
     response = requests.get(url, params)
     data = AttrDict(response.json())
-    
+
     places = []
     for result in data.results:
         location = result.geometry.location
-        places.append({
-            "name": result.name,
-            "rating": result.rating,
-            "vicinity": result.vicinity,
-            "latitude": location.lat,
-            "longitude": location.lng,
-        })
+        places.append(
+            {
+                "name": result.name,
+                "rating": result.rating,
+                "vicinity": result.vicinity,
+                "latitude": location.lat,
+                "longitude": location.lng,
+            }
+        )
 
     return places
 
 
 @app.get("/places/{place_id}", response_model=Place)
 def read_item(place_id: str):
-    url = 'https://maps.googleapis.com/maps/api/place/details/json'
+    url = "https://maps.googleapis.com/maps/api/place/details/json"
     params = {
-      "place_id": place_id,
-      "language": 'ja',
-      "key": key,
+        "place_id": place_id,
+        "language": "ja",
+        "key": key,
     }
 
     response = requests.get(url, params)
@@ -81,9 +90,9 @@ def read_item(place_id: str):
 
 @app.get("/places/{place_id}/photos")
 def read_item(place_id: str):
-    url = 'https://maps.googleapis.com/maps/api/place/photo'
+    url = "https://maps.googleapis.com/maps/api/place/photo"
     params = {
-        "photo_reference": 'Aap_uEDnz_WTtjeSoT06mpN-Yr6NuNoGVip9P74POPIyhLv0Kvr-GORZFWiSGCAf1UnQN29IElWm3J3_KyFw1zUd7IHkVTDDjcjtMp9vQkupTQt0b-BsKLvC6MotMONrakPg4g0Nb-lzhVp8znaorp3klzcdoZJjgamJXZZn6strL82BOIxG',
+        "photo_reference": "Aap_uEDnz_WTtjeSoT06mpN-Yr6NuNoGVip9P74POPIyhLv0Kvr-GORZFWiSGCAf1UnQN29IElWm3J3_KyFw1zUd7IHkVTDDjcjtMp9vQkupTQt0b-BsKLvC6MotMONrakPg4g0Nb-lzhVp8znaorp3klzcdoZJjgamJXZZn6strL82BOIxG",
         "maxheight": 400,
         "maxwidth": 400,
         "key": key,
