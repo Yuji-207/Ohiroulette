@@ -35,7 +35,7 @@ const Home = () => {
     (async () => {
       const location = await getLocation();
       if (location.length === 2 && typeof document !== undefined) {
-        await axios.get(document.location.origin + '/api/place-search?location=' + location.join(','))  // BASE_URLの設定方法を変更したい
+        await axios.get(document.location.origin + '/api/place-search-tmp?location=' + location.join(','))  // BASE_URLの設定方法を変更したい
         .then(res => {
           const places = res.data.places;
           setPlaces(places);
