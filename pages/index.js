@@ -202,7 +202,10 @@ const Home = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Link href={`https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.id}`}>
+                  <Link
+                    href={`https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.id}`}
+                    target="_blank"
+                  >
                     Google マップで見る
                   </Link>
                 </CardActions>
@@ -263,7 +266,10 @@ const Home = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Link href={`https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.id}`}>
+                <Link
+                  href={`https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.id}`}
+                  target="_blank"
+                >
                   Google マップを開く
                 </Link>
               </CardActions>
