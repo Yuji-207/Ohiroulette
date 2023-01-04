@@ -212,6 +212,7 @@ const Home = () => {
                     Google マップで見る
                   </Link>
                 </CardActions>
+              </Card>
             </Box>
           ) : button === 'とめる' ? checked[i] && (
             <Box key={i} m={2}>
