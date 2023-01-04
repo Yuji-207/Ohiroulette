@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography';
 
 import Header from '@components/header/Header';
 
+import calcDistance from '@utils/calc-distance';
 import getLocation from '@utils/get-location';
 
 
@@ -27,24 +28,62 @@ const Home = () => {
   const [button, setButton] = React.useState('');
 
 
-  // 現在地を取得
-  React.useEffect(() => {
-    (async () => {
-      const location = await getLocation();
-      if (location.length === 2 && typeof document !== undefined) {
-        await axios.get(document.location.origin + '/api/place-search-tmp?location=' + location.join(','))  // BASE_URLの設定方法を変更したい
-        .then(res => {
-          const places = res.data.places;
-          setPlaces(places);
+  // // 現在地を取得
+  // React.useEffect(() => {
+  //   (async () => {
+  //     const location = await getLocation();
+  //     if (location.length === 2 && typeof document !== undefined) {
+  //       await axios.get(`http://127.0.0.1:8000/places/near?latitude=${location[0]}&longitude=${location[1]}`)  // BASE_URLの設定方法を変更したい
+  //       .then(res => {
+  //         const places = res.data;
+  //         setPlaces(places);
+  //         setChecked(Array(places.length).fill(true));
+  //         setButton('まわす');
+  //       })
+  //       .catch(err => {
+  //         console.log({err});
+  //       });
+  //     }
+  //   })();
+  // }, []);
+
+    // 一時的な店舗取得
+    const place_ids = [
+      'ChIJfZGP0UJcGGARcJr6fitijNU',  // 築地食堂源ちゃん
+      'ChIJfZGP0UJcGGAR1AnzRqMEGQ8', // お盆でご飯
+      'ChIJG4bw41xcGGARdggvgYmahfk', // スンドゥブ
+      'ChIJfZGP0UJcGGART0y4nWvHEmw', // 石窯やハンバーグ
+      'ChIJW0Me61xcGGARybJrhxbnO3w', // 東急スクエア　焼肉　還元
+      'ChIJTxD-61xcGGARtbugOnAiii4', // サボテン
+      'ChIJ_ZR4j1xcGGARqx6F9Du2Dpo', // ニンニク
+      'ChIJj_4K6VxcGGARuRLDxyZTi1A', // カザーナ　カレー
+      'ChIJgXz0jS9dGGARqrifsw0rWLY', // 天塩ご飯　げん
+      'ChIJ7ZzAEdtdGGAR4uJEM2UrM3Q', //みなとみらい食堂
+      'ChIJEaFmc11cGGARF3VTM4IfED8', //ランドマーク　ぼてじゅう
+    ];
+
+    React.useEffect(() => {
+      (async () => {
+        const location = await getLocation();
+        if (location.length === 2 && typeof document !== undefined) {
+          const places_tmp = [];
+          for (const place_id of place_ids) {
+            await axios.get(`http://127.0.0.1:8000/places/${place_id}`)
+            .then(res => {
+              const data = res.data;
+              data.distance = calcDistance(location[0], location[1], data.latitude, data.longitude);
+              places_tmp.push(res.data);
+            })
+            .catch(err => {
+              console.log({err});
+            });
+          }
+          setPlaces(places_tmp)
           setChecked(Array(places.length).fill(true));
           setButton('まわす');
-        })
-        .catch(err => {
-          console.log({err});
-        });
-      }
-    })();
-  }, []);
+        }
+      })();
+    }, []);
 
 
   // ルーレット
