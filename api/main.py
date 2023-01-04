@@ -54,15 +54,29 @@ def read_root(latitude: float, longitude: float):
     return places
 
 
-# @app.get("/places/{place_id}", response_model=Place)
-# def read_item(place_id: int):
-#     url = 'https://maps.googleapis.com/maps/api/place/details/json'
-#     params = {
-#       "place_id": place_id,
-#       "language": 'ja',
-#       "key": key,
-#     }
-#     return {"item_id": item_id, "q": q}
+@app.get("/places/{place_id}", response_model=Place)
+def read_item(place_id: str):
+    url = 'https://maps.googleapis.com/maps/api/place/details/json'
+    params = {
+      "place_id": place_id,
+      "language": 'ja',
+      "key": key,
+    }
+
+    response = requests.get(url, params)
+    result = AttrDict(response.json()).result
+    location = result.geometry.location
+
+    place = {
+        "id": result.place_id,
+        "name": result.name,
+        "rating": result.rating,
+        "vicinity": result.vicinity,
+        "latitude": location.lat,
+        "longitude": location.lng,
+    }
+
+    return place
 
 
 @app.get("/places/{place_id}/photos")
