@@ -3,7 +3,7 @@ import Confetti from 'react-confetti'
 import React from 'react';
 
 import Box from '@mui/material/Box';
-import { Button, Link } from '@mui/material';
+import { Button, Link, Stack } from '@mui/material';
 import { Card } from '@mui/material';
 import { CardActions } from '@mui/material';
 import { CardContent } from '@mui/material';
@@ -17,9 +17,6 @@ import Typography from '@mui/material/Typography';
 import Header from '@components/header/Header';
 
 import getLocation from '@utils/get-location';
-
-
-
 
 
 const Home = () => {
@@ -141,47 +138,118 @@ const Home = () => {
           '現在地を取得しています…'
         )}
         </Typography>
-        {places.length === 0 && [...Array(5).keys()].map((key) => (
-          <Box key={key} m={2}>
-            <Card sx={{maxWidth: 345}}>
-              <CardHeader
-                title={
-                  <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          spacing={2}
+        >
+          {places.length === 0 && [...Array(5).keys()].map((key) => (
+            <Box key={key}>
+              <Card sx={{width: 345, mx: 'auto'}}>
+                <CardHeader
+                  title={
+                    <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
+                      <Skeleton animation="wave" width="80%" />
+                    </Typography>
+                  }
+                  subheader={
+                    <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
+                      <Skeleton animation="wave" width="40%" />
+                    </Typography>
+                  }
+                />
+                {/* <CardMedia
+                  component="img"
+                  height="140"
+                  image="/static/images/cards/contemplative-reptile.jpg"
+                  alt={place.name}
+                /> */}
+                <CardContent>
+                  <Typography variant="caption" component="p" align="left" color="text.secondary">
+                    <Skeleton animation="wave" />
                     <Skeleton animation="wave" width="80%" />
                   </Typography>
-                }
-                subheader={
-                  <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
-                    <Skeleton animation="wave" width="40%" />
-                  </Typography>
-                }
-              />
-              {/* <CardMedia
-                component="img"
-                height="140"
-                image="/static/images/cards/contemplative-reptile.jpg"
-                alt={place.name}
-              /> */}
-              <CardContent>
-                <Typography variant="caption" component="p" align="left" color="text.secondary">
-                  <Skeleton animation="wave" />
-                  <Skeleton animation="wave" width="80%" />
-                </Typography>
-              </CardContent>
-              {/* <CardActions>
-                <Button size="small">詳しく見る</Button>
-              </CardActions> */}
-            </Card>
-          </Box>
-        ))}
-        {places.map((place, i) => (
-          button === 'まわす' ? (
-            <Box key={i} m={2}>
-              <Card sx={{maxWidth: 345}}>
+                </CardContent>
+                {/* <CardActions>
+                  <Button size="small">詳しく見る</Button>
+                </CardActions> */}
+              </Card>
+            </Box>
+          ))}
+          {places.map((place, i) => (
+            button === 'まわす' ? (
+              <Box key={i}>
+                <Card sx={{width: 345, mx: 'auto'}}>
+                  <CardHeader
+                    action={
+                      <Checkbox id={'checkbox-' + i} defaultChecked onChange={handleCheck} />
+                    }
+                    title={
+                      <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
+                        {place.name}
+                      </Typography>
+                    }
+                    subheader={
+                      <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
+                        {'★ ' + place.rating + ' ー ここから ' + place.distance + ' m'}
+                      </Typography>
+                    }
+                  />
+                  {/* <CardMedia
+                    component="img"
+                    height="140"
+                    image="/static/images/cards/contemplative-reptile.jpg"
+                    alt={place.name}
+                  /> */}
+                  <CardContent>
+                    <Typography variant="caption" component="p" align="left" color="text.secondary">
+                      {place.vicinity}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Link
+                      href={`https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.id}`}
+                      target="_blank"
+                    >
+                      Google マップで見る
+                    </Link>
+                  </CardActions>
+                </Card>
+              </Box>
+            ) : button === 'とめる' ? checked[i] && (
+              <Box key={i}>
+                <Card sx={{width: 345, mx: 'auto'}}>
+                  <CardHeader
+                    title={
+                      <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
+                        {place.name}
+                      </Typography>
+                    }
+                    subheader={
+                      <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
+                        {'★ ' + place.rating + ' ー ここから ' + place.distance + ' m'}
+                      </Typography>
+                    }
+                  />
+                  {/* <CardMedia
+                    component="img"
+                    height="140"
+                    image="/static/images/cards/contemplative-reptile.jpg"
+                    alt={place.name}
+                  /> */}
+                  <CardContent>
+                    <Typography variant="caption" component="p" align="left" color="text.secondary">
+                      {place.vicinity}
+                    </Typography>
+                  </CardContent>
+                  {/* <CardActions>
+                    <Button size="small">詳しく見る</Button>
+                  </CardActions> */}
+                </Card>
+              </Box>
+            ) : button === 'りせっと' && i === 0 &&(
+              <Box key={i}>
+              <Card sx={{width: 345, mx: 'auto'}}>
                 <CardHeader
-                  action={
-                    <Checkbox id={'checkbox-' + i} defaultChecked onChange={handleCheck} />
-                  }
                   title={
                     <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
                       {place.name}
@@ -209,80 +277,14 @@ const Home = () => {
                     href={`https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.id}`}
                     target="_blank"
                   >
-                    Google マップで見る
+                    Google マップを開く
                   </Link>
                 </CardActions>
               </Card>
             </Box>
-          ) : button === 'とめる' ? checked[i] && (
-            <Box key={i} m={2}>
-              <Card sx={{maxWidth: 345}}>
-                <CardHeader
-                  title={
-                    <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
-                      {place.name}
-                    </Typography>
-                  }
-                  subheader={
-                    <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
-                      {'★ ' + place.rating + ' ー ここから ' + place.distance + ' m'}
-                    </Typography>
-                  }
-                />
-                {/* <CardMedia
-                  component="img"
-                  height="140"
-                  image="/static/images/cards/contemplative-reptile.jpg"
-                  alt={place.name}
-                /> */}
-                <CardContent>
-                  <Typography variant="caption" component="p" align="left" color="text.secondary">
-                    {place.vicinity}
-                  </Typography>
-                </CardContent>
-                {/* <CardActions>
-                  <Button size="small">詳しく見る</Button>
-                </CardActions> */}
-              </Card>
-            </Box>
-          ) : button === 'りせっと' && i === 0 &&(
-            <Box key={i} m={2}>
-            <Card sx={{maxWidth: 345}}>
-              <CardHeader
-                title={
-                  <Typography variant="subtitle1" component="h3" align="left" color="text.secondary">
-                    {place.name}
-                  </Typography>
-                }
-                subheader={
-                  <Typography variant="subtitle2" component="p" align="left"color="text.secondary">
-                    {'★ ' + place.rating + ' ー ここから ' + place.distance + ' m'}
-                  </Typography>
-                }
-              />
-              {/* <CardMedia
-                component="img"
-                height="140"
-                image="/static/images/cards/contemplative-reptile.jpg"
-                alt={place.name}
-              /> */}
-              <CardContent>
-                <Typography variant="caption" component="p" align="left" color="text.secondary">
-                  {place.vicinity}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Link
-                  href={`https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.id}`}
-                  target="_blank"
-                >
-                  Google マップを開く
-                </Link>
-              </CardActions>
-            </Card>
-          </Box>
-          )
-        ))}
+            )
+          ))}
+        </Stack>
       </Container>
       {button !== '' && (
         <Box m={3} sx={{position: 'fixed', inset: 'auto 0 0 0', display: 'flex', justifyContent: 'center'}}>
