@@ -105,7 +105,7 @@ const Home = () => {
     if (button === 'まわす') {
       setButton('とめる');
     } else if (button === 'とめる') {
-      setButton('りせっと');
+      setButton('やり直す');
     } else {
       places.sort((a, b) => a.distance - b.distance);
       setChecked(Array(places.length).fill(true));  // リセットしたくない checkedで管理したい
@@ -117,7 +117,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      {button === 'りせっと' && (
+      {button === 'やり直す' && (
         <Confetti
           width={window.innerWidth}
           height={window.innerHeight}
@@ -132,7 +132,7 @@ const Home = () => {
           '候補のお店をえらぶ'
         ) : button === 'とめる' ? (
           '今日のお昼は？'
-        ) : button === 'りせっと' ? (
+        ) : button === 'やり直す' ? (
           'ここだよ！'
         ) : (
           '現在地を取得しています…'
@@ -246,7 +246,7 @@ const Home = () => {
                   </CardActions> */}
                 </Card>
               </Box>
-            ) : button === 'りせっと' && i === 0 &&(
+            ) : button === 'やり直す' && i === 0 &&(
               <Box key={i}>
               <Card sx={{width: 345, mx: 'auto'}}>
                 <CardHeader
