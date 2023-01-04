@@ -80,5 +80,16 @@ def read_item(place_id: str):
 
 
 @app.get("/places/{place_id}/photos")
-def read_item(place_id):
+def read_item(place_id: str):
+    url = 'https://maps.googleapis.com/maps/api/place/photo'
+    params = {
+        "photo_reference": 'Aap_uEDnz_WTtjeSoT06mpN-Yr6NuNoGVip9P74POPIyhLv0Kvr-GORZFWiSGCAf1UnQN29IElWm3J3_KyFw1zUd7IHkVTDDjcjtMp9vQkupTQt0b-BsKLvC6MotMONrakPg4g0Nb-lzhVp8znaorp3klzcdoZJjgamJXZZn6strL82BOIxG',
+        "maxheight": 400,
+        "maxwidth": 400,
+        "key": key,
+    }
+
+    response = requests.get(url, params)
+    result = AttrDict(response.json())
+    print(result)
     return {}
