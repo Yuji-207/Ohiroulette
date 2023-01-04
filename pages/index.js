@@ -204,10 +204,14 @@ const Home = () => {
                     {place.vicinity}
                   </Typography>
                 </CardContent>
-                {/* <CardActions>
-                  <Button size="small">詳しく見る</Button>
-                </CardActions> */}
-              </Card>
+                <CardActions>
+                  <Link
+                    href={`https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.id}`}
+                    target="_blank"
+                  >
+                    Google マップで見る
+                  </Link>
+                </CardActions>
             </Box>
           ) : button === 'とめる' ? checked[i] && (
             <Box key={i} m={2}>
@@ -266,9 +270,14 @@ const Home = () => {
                   {place.vicinity}
                 </Typography>
               </CardContent>
-              {/* <CardActions>
-                <Button size="small">詳しく見る</Button>
-              </CardActions> */}
+              <CardActions>
+                <Link
+                  href={`https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.id}`}
+                  target="_blank"
+                >
+                  Google マップを開く
+                </Link>
+              </CardActions>
             </Card>
           </Box>
           )
