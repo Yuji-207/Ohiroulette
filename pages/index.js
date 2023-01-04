@@ -3,12 +3,12 @@ import Confetti from 'react-confetti'
 import React from 'react';
 
 import Box from '@mui/material/Box';
-import { Button } from '@mui/material';
+import { Button, Link } from '@mui/material';
 import { Card } from '@mui/material';
 import { CardActions } from '@mui/material';
 import { CardContent } from '@mui/material';
 import { CardHeader } from '@mui/material';
-import { CardMedia } from '@mui/material';
+// import { CardMedia } from '@mui/material';
 import { Checkbox } from '@mui/material';
 import Container from '@mui/material/Container';
 import { Skeleton } from '@mui/material';
@@ -168,9 +168,6 @@ const Home = () => {
                   <Skeleton animation="wave" width="80%" />
                 </Typography>
               </CardContent>
-              {/* <CardActions>
-                <Button size="small">詳しく見る</Button>
-              </CardActions> */}
             </Card>
           </Box>
         ))}
@@ -204,9 +201,11 @@ const Home = () => {
                     {place.vicinity}
                   </Typography>
                 </CardContent>
-                {/* <CardActions>
-                  <Button size="small">詳しく見る</Button>
-                </CardActions> */}
+                <CardActions>
+                  <Link href={`https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.id}`}>
+                    Google マップで見る
+                  </Link>
+                </CardActions>
               </Card>
             </Box>
           ) : button === 'とめる' ? checked[i] && (
@@ -235,9 +234,6 @@ const Home = () => {
                     {place.vicinity}
                   </Typography>
                 </CardContent>
-                {/* <CardActions>
-                  <Button size="small">詳しく見る</Button>
-                </CardActions> */}
               </Card>
             </Box>
           ) : button === 'りせっと' && i === 0 &&(
@@ -266,9 +262,11 @@ const Home = () => {
                   {place.vicinity}
                 </Typography>
               </CardContent>
-              {/* <CardActions>
-                <Button size="small">詳しく見る</Button>
-              </CardActions> */}
+              <CardActions>
+                <Link href={`https://www.google.com/maps/search/?api=1&query=${place.name}&query_place_id=${place.id}`}>
+                  Google マップを開く
+                </Link>
+              </CardActions>
             </Card>
           </Box>
           )
